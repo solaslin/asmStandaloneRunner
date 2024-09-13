@@ -32,6 +32,7 @@
 #include "AMAXRunner.hpp"
 #include "FastAMAXRunner.hpp"
 #include "GemmAmaxDRunner.hpp"
+#include "SwizzleGemmRunner.hpp"
 
 namespace po = boost::program_options;
 
@@ -243,6 +244,8 @@ AsmRunnerAndValidator* CreateTypedRunner(const std::string& test_tag)
         return new FastAMAXRunner();
     else if(test_tag == "gemm_amaxD")
         return new GemmAmaxDRunner();
+    else if(test_tag == "swizzle_gemm")
+        return new SwizzleGemmRunner();
     else
     {
         std::cout << "haven't implemented the SetupKernelArgs for test-tag:" << test_tag
