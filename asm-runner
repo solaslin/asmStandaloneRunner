@@ -39,7 +39,7 @@ def assemble(inputSFile,
              timeout=10):
 
     # assembler
-    cmd = [pathlib.Path("/opt/rocm/llvm/bin/clang++").resolve()]
+    cmd = [pathlib.Path("/opt/rocm/bin/amdclang++")]
     cmd += ['-x','assembler', '-target','amdgcn-amd-amdhsa', "-mcode-object-version=4", f'-mcpu={arch}', "-mwavefrontsize64"]
     cmd += ['-c','-o', f'{outputOFile}', f'{inputSFile}']
 
@@ -64,7 +64,7 @@ def assemble(inputSFile,
         return False;
 
     # linker to CO
-    cmd = [pathlib.Path("/opt/rocm/llvm/bin/clang++").resolve()]
+    cmd = [pathlib.Path("/opt/rocm/bin/amdclang++")]
     cmd += ['-target','amdgcn-amd-amdhsa', "-Xlinker", "--build-id=sha1"]
     cmd += ['-o', f'{outputCOFile}', f'{outputOFile}']
 

@@ -80,6 +80,8 @@ po::options_description all_options()
 
                 ("input-bytes",              po::value<size_t>()->default_value(0), "bytes of input (only for LDS_TEST)")
 
+                ("device-idx",               po::value<int>()->default_value(0), "device id")
+
                 ("ext-lds-bytes",            po::value<size_t>()->default_value(0), "extern lds sizes (Should be 0 if the asm has hardcoded lds-usage)")
 
                 ("matB_N",                   po::value<size_t>()->default_value(0), "size of matrix B: N direction (row)")
@@ -110,7 +112,7 @@ int GetHardware(po::variables_map const& args)
     int deviceCount = 0;
     HIP_CHECK_EXC(hipGetDeviceCount(&deviceCount));
 
-    int deviceIdx = 0;
+    int deviceIdx = args["device-idx"].as<int>();
 
     if(deviceIdx >= deviceCount)
         throw std::runtime_error("Invalid device index " + std::to_string(deviceIdx) + " ("
@@ -244,8 +246,10 @@ AsmRunnerAndValidator* CreateTypedRunner(const std::string& test_tag)
         return new FastAMAXRunner();
     else if(test_tag == "gemm_amaxD")
         return new GemmAmaxDRunner();
-    else if(test_tag == "swizzle_gemm")
-        return new SwizzleGemmRunner();
+    else if(test_tag == "swizzle_gemm_BT")
+        return new SwizzleAGemmRunner(true);
+    else if(test_tag == "swizzle_gemm_BN")
+        return new SwizzleAGemmRunner(false);
     else
     {
         std::cout << "haven't implemented the SetupKernelArgs for test-tag:" << test_tag
