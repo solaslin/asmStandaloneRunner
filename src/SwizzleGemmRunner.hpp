@@ -128,11 +128,13 @@ public:
         size_t value = 0;
         for(size_t dimM = 0; dimM < M; ++dimM)
         {
-            value = minK * dimM;
+            size_t scale = ((dimM / minM) % 2) + 1; // wrap scale between [1,2]
+            size_t linearM = dimM % minM;
+            value = (minK * linearM);
             for(size_t dimK = 0; dimK < Kr; ++dimK)
             {
                 for (size_t v = 0; v < minK; ++v)
-                    inputA_h.push_back(value + v);
+                    inputA_h.push_back((value + v) * scale);
             }
         }
         std::cout << std::endl << "Non-Swizzled InputA:" << std::endl;
@@ -142,8 +144,9 @@ public:
         mock_inputA_h  = std::vector<_Float16>();
         for(size_t dimMr = 0; dimMr < Mr; ++dimMr)
         {
+            // wrap scale between [1,2]
             for(size_t dimKr = 0; dimKr < Kr; ++dimKr)
-                genSwizzledA(mock_inputA_h, (dimMr + 1));
+                genSwizzledA(mock_inputA_h, ((dimMr % 2) + 1));
         }
         std::cout << std::endl << "Swizzled InputA:" << std::endl;
         print_row_by_row(mock_inputA_h, 8*M, K/8, true);
