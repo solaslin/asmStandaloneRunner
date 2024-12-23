@@ -32,6 +32,7 @@
 #include "AMAXRunner.hpp"
 #include "FastAMAXRunner.hpp"
 #include "GemmAmaxDRunner.hpp"
+#include "GemmRunner.hpp"
 #include "SwizzleGemmRunner.hpp"
 
 namespace po = boost::program_options;
@@ -246,6 +247,8 @@ AsmRunnerAndValidator* CreateTypedRunner(const std::string& test_tag)
         return new FastAMAXRunner();
     else if(test_tag == "gemm_amaxD")
         return new GemmAmaxDRunner();
+    else if(test_tag == "gemm_runner")
+        return new GemmRunner(false); // default TN
     else if(test_tag == "swizzle_gemm_BT")
         return new SwizzleAGemmRunner(true);
     else if(test_tag == "swizzle_gemm_BN")
