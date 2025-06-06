@@ -133,9 +133,14 @@ public:
         KernelArguments& kernelArg = kernelInvoc.args;
 
         kernelArg.reserve(1024, 128);
-        kernelArg.append("Gemm-info", (uint32_t)1);
-        kernelArg.append("kernel-info0", (uint32_t)35651585);
-        kernelArg.append("kernel-info1", (uint32_t)8);
+        // V1
+        // kernelArg.append("Gemm-info", (uint32_t)1);
+        // kernelArg.append("kernel-info0", (uint32_t)35651585);
+        // kernelArg.append("kernel-info1", (uint32_t)8);
+        // V2
+        kernelArg.append("gemm_count", (uint32_t)1);
+        kernelArg.append("internalArgs", (uint32_t)1);
+        kernelArg.append("internalArgs1", (uint32_t)1275592712);
         kernelArg.append("numWG", (uint32_t)(kernelInvoc.gridDim.x));
         kernelArg.append("SizesFree0", M); // M
         kernelArg.append("SizesFree1", N); // N
