@@ -18,12 +18,6 @@ private:
     std::vector<float> scales_h; // scaleA,B,C,D
     gpubuf_t<float>    scales_d;
 
-    uint32_t M;
-    uint32_t N;
-    uint32_t K;
-    float    alpha;
-    float    beta;
-
     // amax D
     float              amaxD_h;
     gpubuf_t<float>    amaxD_d;
@@ -89,19 +83,13 @@ private:
     }
 
 public:
-    GemmAmaxDRunner()
-        : AsmRunnerAndValidator()
+    GemmAmaxDRunner(po::variables_map const& args)
+        : AsmRunnerAndValidator(args)
     {
     }
 
-    virtual void SetupKernelArgs(po::variables_map& args, KernelInvocation& kernelInvoc) override
+    virtual void SetupKernelArgs(KernelInvocation& kernelInvoc) override
     {
-        M     = args["gemm_M"].as<uint32_t>();
-        N     = args["gemm_N"].as<uint32_t>();
-        K     = args["gemm_K"].as<uint32_t>();
-        alpha = args["alpha"].as<float>();
-        beta  = args["beta"].as<float>();
-
         // init A,B,C
         inputA_h  = std::vector<hipblaslt_f8_fnuz>(M * K, (hipblaslt_f8_fnuz)1.0f);
         inputB_h  = std::vector<hipblaslt_f8_fnuz>(N * K, (hipblaslt_f8_fnuz)1.0f);

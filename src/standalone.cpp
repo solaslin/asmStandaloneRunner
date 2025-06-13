@@ -85,19 +85,15 @@ po::options_description all_options()
 
                 ("ext-lds-bytes",            po::value<size_t>()->default_value(0), "extern lds sizes (Should be 0 if the asm has hardcoded lds-usage)")
 
-                ("matB_N",                   po::value<size_t>()->default_value(0), "size of matrix B: N direction (row)")
+                ("size_M",                   po::value<uint32_t>()->default_value(16), "Dim M (def=16) for Matrix(A,D)")
 
-                ("matB_K",                   po::value<size_t>()->default_value(0), "size of matrix B: K direction (colume)")
+                ("size_N",                   po::value<uint32_t>()->default_value(16), "Dim N (def=16) for Matrix(B,D)")
 
-                ("gemm_M",                   po::value<uint32_t>()->default_value(0), "Dim M for gemm")
+                ("size_K",                   po::value<uint32_t>()->default_value(32), "Dim K (def=32) for Matrix(A,B)")
 
-                ("gemm_N",                   po::value<uint32_t>()->default_value(0), "Dim N for gemm")
+                ("alpha",                    po::value<float>()->default_value(1.0f), "Alpha (def=1.0)")
 
-                ("gemm_K",                   po::value<uint32_t>()->default_value(0), "Dim K for gemm")
-
-                ("alpha",                    po::value<float>()->default_value(1.0f), "Alpha")
-
-                ("beta",                     po::value<float>()->default_value(0.0f), "Beta")
+                ("beta",                     po::value<float>()->default_value(0.0f), "Beta (def=0.0)")
 
                 ("bias",                     po::value<float>()->default_value(1.0f), "Bias")
 
@@ -239,20 +235,21 @@ po::variables_map parse_args(int argc, const char* argv[])
     return args;
 }
 
-AsmRunnerAndValidator* CreateTypedRunner(const std::string& test_tag)
+AsmRunnerAndValidator* CreateTypedRunner(po::variables_map& args)
 {
+    // branch to different test cases
+    std::string test_tag = args["test-tag"].as<std::string>();
+
     if(test_tag == "amax")
-        return new AMAXRunner();
+        return new AMAXRunner(args);
     else if(test_tag == "fastAmax")
-        return new FastAMAXRunner();
+        return new FastAMAXRunner(args);
     else if(test_tag == "gemm_amaxD")
-        return new GemmAmaxDRunner();
+        return new GemmAmaxDRunner(args);
     else if(test_tag == "gemm_runner")
-        return new GemmRunner(false); // default TN
-    else if(test_tag == "swizzle_gemm_BT")
-        return new SwizzleAGemmRunner(true);
-    else if(test_tag == "swizzle_gemm_BN")
-        return new SwizzleAGemmRunner(false);
+        return new GemmRunner(args, false); // default TN
+    else if(test_tag == "swizzle_gemm")
+        return new SwizzleAGemmRunner(args); // Only TN
     else
     {
         std::cout << "haven't implemented the SetupKernelArgs for test-tag:" << test_tag
@@ -297,19 +294,14 @@ int main(int argc, const char* argv[])
     kernelInvoc.sharedMemBytes
         = args["ext-lds-bytes"].as<size_t>(); // should be zero for hand-written assembly
 
-    // branch to different test cases
-    std::string test_tag = args["test-tag"].as<std::string>();
-
-    auto runnerClass = CreateTypedRunner(test_tag);
+    auto runnerClass = CreateTypedRunner(args);
     if(!runnerClass)
     {
-        std::cout << "haven't implemented the SetupKernelArgs for test-tag:" << test_tag
-                  << std::endl;
         return 1;
     }
 
     // kernal arguments
-    runnerClass->SetupKernelArgs(args, kernelInvoc);
+    runnerClass->SetupKernelArgs(kernelInvoc);
 
     // launch kernel
     runnerClass->LaunchKernel(adapter, kernelInvoc, stream);

@@ -22,8 +22,8 @@ private:
     }
 
 public:
-    AMAXRunner()
-        : AsmRunnerAndValidator()
+    AMAXRunner(po::variables_map const& args)
+        : AsmRunnerAndValidator(args)
     {
         inputH  = std::vector<float>(256, 0.0f);
         outputH = std::vector<float>(1);
@@ -35,7 +35,7 @@ public:
         HIP_CHECK_EXC(outputD.alloc(sizeof(float)));
     }
 
-    virtual void SetupKernelArgs(po::variables_map& args, KernelInvocation& kernelInvoc) override
+    virtual void SetupKernelArgs(KernelInvocation& kernelInvoc) override
     {
         HIP_CHECK_EXC(hipMemcpy(
             inputD.data(), inputH.data(), sizeof(float) * inputH.size(), hipMemcpyHostToDevice));

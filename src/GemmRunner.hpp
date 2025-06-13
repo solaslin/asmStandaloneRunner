@@ -18,12 +18,6 @@ private:
     gpubuf_t<_Float16> inputC_d;
     gpubuf_t<_Float16> outputD_d;
 
-    uint32_t M = 16;
-    uint32_t N = 16;
-    uint32_t K = 32;
-    float    alpha = 1.0f;
-    float    beta = 0.0f;
-
     bool transB;
 
     size_t Coord2Idx(uint32_t D1,    // D1 = leading dimension
@@ -73,18 +67,14 @@ private:
     }
 
 public:
-    GemmRunner(bool transB = false)
-        : AsmRunnerAndValidator()
+    GemmRunner(po::variables_map const& args, bool transB = false)
+        : AsmRunnerAndValidator(args)
         , transB(transB)
     {
     }
 
-    virtual void SetupKernelArgs(po::variables_map& args, KernelInvocation& kernelInvoc) override
+    virtual void SetupKernelArgs(KernelInvocation& kernelInvoc) override
     {
-        M = args["gemm_M"].as<uint32_t>();
-        N = args["gemm_N"].as<uint32_t>();
-        K = args["gemm_K"].as<uint32_t>();
-
         uint32_t Mr = M / minM;
         uint32_t Kr = K / minK;
 

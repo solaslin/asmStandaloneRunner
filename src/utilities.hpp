@@ -621,10 +621,27 @@ hipError_t SolutionAdapter::launchKernel(KernelInvocation const& kernel,
     return hipSuccess;
 }
 
+namespace po = boost::program_options;
 class AsmRunnerAndValidator
 {
+protected:
+
+    uint32_t M;
+    uint32_t N;
+    uint32_t K;
+    float    alpha;
+    float    beta;
+
 public:
-    AsmRunnerAndValidator(){};
+    AsmRunnerAndValidator() = delete;
+    AsmRunnerAndValidator(po::variables_map const& args)
+    {
+        M     = args["size_M"].as<uint32_t>();
+        N     = args["size_N"].as<uint32_t>();
+        K     = args["size_K"].as<uint32_t>();
+        alpha = args["alpha"].as<float>();
+        beta  = args["beta"].as<float>();
+    }
     virtual ~AsmRunnerAndValidator(){};
     virtual void
         LaunchKernel(SolutionAdapter& adapter, KernelInvocation& kernelInvoc, hipStream_t stream)
@@ -632,6 +649,6 @@ public:
         HIP_CHECK_EXC(adapter.launchKernel(kernelInvoc, stream, nullptr, nullptr));
     }
 
-    virtual void SetupKernelArgs(po::variables_map& args, KernelInvocation& kernelInvoc) = 0;
-    virtual bool Validation()                                                            = 0;
+    virtual void SetupKernelArgs(KernelInvocation& kernelInvoc) = 0;
+    virtual bool Validation()                                   = 0;
 };

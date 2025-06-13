@@ -43,15 +43,13 @@ private:
     }
 
 public:
-    FastAMAXRunner()
-        : AsmRunnerAndValidator()
+    FastAMAXRunner(po::variables_map const& args)
+        : AsmRunnerAndValidator(args)
     {
     }
 
-    virtual void SetupKernelArgs(po::variables_map& args, KernelInvocation& kernelInvoc) override
+    virtual void SetupKernelArgs(KernelInvocation& kernelInvoc) override
     {
-        size_t N    = args["matB_N"].as<size_t>();
-        size_t K    = args["matB_K"].as<size_t>();
         total_elems = N * K;
         inputH      = std::vector<_Float16>(total_elems);
         outputH     = std::vector<float>(1);
