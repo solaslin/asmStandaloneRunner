@@ -39,6 +39,7 @@
 /* SubGroup= 4 x 16 */
 /* VectorWidthA=1 */
 /* VectorWidthB=1 */
+/* LocalReadVectorWidth=8 */
 /* GlobalReadVectorWidthA=8, GlobalReadVectorWidthB=8 */
 /* DirectToLdsA=False */
 /* DirectToLdsB=False */
