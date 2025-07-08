@@ -3,9 +3,9 @@ compiling asm for arch: gfx942
 
 Compiling asm file.....
 
-assembler command: /opt/rocm/bin/amdclang++ -x assembler -target amdgcn-amd-amdhsa -mcode-object-version=4 -mcpu=gfx942 -mwavefrontsize64 -c -o /root/repos/asmStandaloneRunner/asm/TN_HHS_STA_BH_UserArgs_MT16x16x128_LSU2.o /root/repos/asmStandaloneRunner/asm/TN_HHS_STA_BH_UserArgs_MT16x16x128_LSU2.s
+assembler command: /opt/rocm/bin/amdclang++ -x assembler -target amdgcn-amd-amdhsa -mcode-object-version=4 -mcpu=gfx942 -mwavefrontsize64 -c -o /root/repos/asmStandaloneRunner/asm/TN_HHS_STA_BH_UserArgs_MT32x16x128_LSU2.o /root/repos/asmStandaloneRunner/asm/TN_HHS_STA_BH_UserArgs_MT32x16x128_LSU2.s
 
-linker command: /opt/rocm/bin/amdclang++ -target amdgcn-amd-amdhsa -Xlinker --build-id=sha1 -o /root/repos/asmStandaloneRunner/asm/TN_HHS_STA_BH_UserArgs_MT16x16x128_LSU2.co /root/repos/asmStandaloneRunner/asm/TN_HHS_STA_BH_UserArgs_MT16x16x128_LSU2.o
+linker command: /opt/rocm/bin/amdclang++ -target amdgcn-amd-amdhsa -Xlinker --build-id=sha1 -o /root/repos/asmStandaloneRunner/asm/TN_HHS_STA_BH_UserArgs_MT32x16x128_LSU2.co /root/repos/asmStandaloneRunner/asm/TN_HHS_STA_BH_UserArgs_MT32x16x128_LSU2.o
 
 Build asm complete.
 
@@ -14,8 +14,8 @@ loading config file /root/repos/asmStandaloneRunner/program_config_gemm_swizzleA
 
 srand seed is set to 2567
 
-Loading ./asm/TN_HHS_STA_BH_UserArgs_MT16x16x128_LSU2.co
-loaded code object ./asm/TN_HHS_STA_BH_UserArgs_MT16x16x128_LSU2.co
+Loading ./asm/TN_HHS_STA_BH_UserArgs_MT32x16x128_LSU2.co
+loaded code object ./asm/TN_HHS_STA_BH_UserArgs_MT32x16x128_LSU2.co
 
 Non-Swizzled InputA:
 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 
@@ -198,8 +198,8 @@ InputB:
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
-Kernel Cijk_Alik_Bljk_HHS_STA_BH_UserArgs_MT16x16x128_MI16x16x1_SN_LDSB0_AFC0_AFEM1_AFEM1_ASEM1_CLR1_CADS0_DTVA1_DTVB0_EPS0_FDSI0_GRPM1_GRVWA8_GRVWB8_GSUAMB_GLS0_ISA942_IU1_K1_LBSPPA0_LBSPPB256_LBSPPM0_LPA0_LPB16_LPM0_LRVW8_LWPMn1_MIAV0_MIWT1_1_MO40_NTn1_NTA0_NTB0_NTC0_NTD0_NTM0_NEPBS0_NLCA2_NLCB1_ONLL1_PGR1_PLR1_PKA1_SIA3_SS0_SPO0_SRVW0_SSO0_SVW1_SK0_SKXCCM0_TLDS1_ULSGRO0_USL1_UIOFGRO0_USFGRO0_VSn1_VWA1_VWB1_WSGRA0_WSGRB0_WS64_WG16_4_2
- l[128,1,1] x g[2,1,1] = [256,1,1]
+Kernel Cijk_Alik_Bljk_HHS_STA_BH_UserArgs_MT32x16x128_MI16x16x1_SN_LDSB0_AFC0_AFEM1_AFEM1_ASEM1_CLR1_CADS0_DTVA1_DTVB0_EPS0_FDSI0_GRPM1_GRVWA8_GRVWB8_GSUAMB_GLS0_ISA942_IU1_K1_LBSPPA0_LBSPPB256_LBSPPM0_LPA0_LPB16_LPM0_LRVW8_LWPMn1_MIAV0_MIWT1_1_MO40_NTn1_NTA0_NTB0_NTC0_NTD0_NTM0_NEPBS0_NLCA2_NLCB1_ONLL1_PGR1_PLR1_PKA1_SIA3_SS0_SPO0_SRVW0_SSO0_SVW1_SK0_SKXCCM0_TLDS1_ULSGRO0_USL1_UIOFGRO0_USFGRO0_VSn1_VWA1_VWB1_WSGRA0_WSGRB0_WS64_WG32_4_2
+ l[256,1,1] x g[1,1,1] = [256,1,1]
 
 Validation:
 

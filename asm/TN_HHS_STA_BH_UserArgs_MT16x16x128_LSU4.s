@@ -1134,7 +1134,8 @@ label_WGM:
 /* global read addresses: tile offsets a */
 /* SWZ-A: calculation of groA0I_0 */
 v_mov_b32 v22, v4
-s_mov_b32 s68, 0x200                               // swizzled block * VW = (MI_M(16) * MI_K(16) * kPack) * VW(1)
+/* Ethan Test: Fix SWZ SIZE */
+s_mov_b32 s68, 0x800                               // swizzled block * VW = (MI_M(16) * MI_K(16) * kPack) * VW(1)
 v_mov_b32 v23, s68
 v_mul_u32_u24 v22, v22, v23
 v_lshrrev_b32 v25, 6, v[vgprSerial]                // 25 = Serial / 64
