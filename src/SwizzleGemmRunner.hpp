@@ -112,7 +112,8 @@ public:
         inputC_h  = std::vector<_Float16>(M * N, (_Float16)0.0f);
         outputD_h = std::vector<_Float16>(M * N, (_Float16)0.0f);
 
-        HIP_CHECK_EXC(inputA_d.alloc(sizeof(_Float16) * M * K));
+        // alloc after swizzled padded
+        // HIP_CHECK_EXC(inputA_d.alloc(sizeof(_Float16) * M * K));
         HIP_CHECK_EXC(inputB_d.alloc(sizeof(_Float16) * N * K));
         HIP_CHECK_EXC(inputC_d.alloc(sizeof(_Float16) * M * N));
         HIP_CHECK_EXC(outputD_d.alloc(sizeof(_Float16) * M * N));
@@ -143,8 +144,12 @@ public:
         // Tensor Swizzle
         doSwizzle(tensorA_h, swizzledA_h);
         std::cout << std::endl << "Swizzled InputA:" << std::endl;
-        // Tensor::Manipulation::printTensorDataMultiDims<_Float16>(std::cout, swizzledA_h);
-        print_row_by_row(swizzledA_h.as<_Float16>(), 8*M, K/8, true);
+        Tensor::Manipulation::printTensorDataMultiDims<_Float16>(std::cout, swizzledA_h);
+        // print_row_by_row(swizzledA_h.as<_Float16>(), 8*M, K/8, true);
+
+
+        // final memory size is padded
+        HIP_CHECK_EXC(inputA_d.alloc(swizzledA_h.getNumBytes()));
 
 
         for(size_t idxB = 0; idxB < inputB_h.size(); ++idxB)

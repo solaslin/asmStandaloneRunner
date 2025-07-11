@@ -4,13 +4,13 @@
 /******************************************/
 .amdgcn_target "amdgcn-amd-amdhsa--gfx942"
 .text
-.protected Cijk_Alik_Bljk_HHS_STA_BH_UserArgs_MT32x16x128_MI16x16x1_SN_LDSB0_AFC0_AFEM1_AFEM1_ASEM1_CLR1_CADS0_DTVA1_DTVB0_EPS0_FDSI0_GRPM1_GRVWA8_GRVWB8_GSUAMB_GLS0_ISA942_IU1_K1_LBSPPA0_LBSPPB256_LBSPPM0_LPA0_LPB16_LPM0_LRVW8_LWPMn1_MIAV0_MIWT1_1_MO40_NTn1_NTA0_NTB0_NTC0_NTD0_NTM0_NEPBS0_NLCA4_NLCB1_ONLL1_PGR1_PLR1_PKA1_SIA3_SS0_SPO0_SRVW0_SSO0_SVW4_SK0_SKXCCM0_TLDS1_ULSGRO0_USL1_UIOFGRO0_USFGRO0_VSn1_VWA1_VWB1_WSGRA0_WSGRB0_WS64_WG32_4_1
-.globl Cijk_Alik_Bljk_HHS_STA_BH_UserArgs_MT32x16x128_MI16x16x1_SN_LDSB0_AFC0_AFEM1_AFEM1_ASEM1_CLR1_CADS0_DTVA1_DTVB0_EPS0_FDSI0_GRPM1_GRVWA8_GRVWB8_GSUAMB_GLS0_ISA942_IU1_K1_LBSPPA0_LBSPPB256_LBSPPM0_LPA0_LPB16_LPM0_LRVW8_LWPMn1_MIAV0_MIWT1_1_MO40_NTn1_NTA0_NTB0_NTC0_NTD0_NTM0_NEPBS0_NLCA4_NLCB1_ONLL1_PGR1_PLR1_PKA1_SIA3_SS0_SPO0_SRVW0_SSO0_SVW4_SK0_SKXCCM0_TLDS1_ULSGRO0_USL1_UIOFGRO0_USFGRO0_VSn1_VWA1_VWB1_WSGRA0_WSGRB0_WS64_WG32_4_1
+.protected Cijk_Alik_Bljk_HHS_STA_BH_UserArgs_MT32x16x128_MI16x16x1_SN_LDSB0_AFC0_AFEM1_AFEM1_ASEM1_CLR1_CADS0_DTVA1_DTVB0_EPS1_FDSI0_GRPM1_GRVWA8_GRVWB8_GSUAMB_GLS0_ISA942_IU1_K1_LBSPPA0_LBSPPB256_LBSPPM0_LPA0_LPB16_LPM0_LRVW8_LWPMn1_MIAV0_MIWT1_1_MO40_NTn1_NTA0_NTB0_NTC0_NTD0_NTM0_NEPBS0_NLCA4_NLCB1_ONLL1_PGR1_PLR1_PKA1_SIA3_SS0_SPO0_SRVW0_SSO0_SVW4_SK0_SKXCCM0_TLDS1_ULSGRO0_USL1_UIOFGRO0_USFGRO0_VSn1_VWA1_VWB1_WSGRA0_WSGRB0_WS64_WG32_4_1
+.globl Cijk_Alik_Bljk_HHS_STA_BH_UserArgs_MT32x16x128_MI16x16x1_SN_LDSB0_AFC0_AFEM1_AFEM1_ASEM1_CLR1_CADS0_DTVA1_DTVB0_EPS1_FDSI0_GRPM1_GRVWA8_GRVWB8_GSUAMB_GLS0_ISA942_IU1_K1_LBSPPA0_LBSPPB256_LBSPPM0_LPA0_LPB16_LPM0_LRVW8_LWPMn1_MIAV0_MIWT1_1_MO40_NTn1_NTA0_NTB0_NTC0_NTD0_NTM0_NEPBS0_NLCA4_NLCB1_ONLL1_PGR1_PLR1_PKA1_SIA3_SS0_SPO0_SRVW0_SSO0_SVW4_SK0_SKXCCM0_TLDS1_ULSGRO0_USL1_UIOFGRO0_USFGRO0_VSn1_VWA1_VWB1_WSGRA0_WSGRB0_WS64_WG32_4_1
 .p2align 8
-.type Cijk_Alik_Bljk_HHS_STA_BH_UserArgs_MT32x16x128_MI16x16x1_SN_LDSB0_AFC0_AFEM1_AFEM1_ASEM1_CLR1_CADS0_DTVA1_DTVB0_EPS0_FDSI0_GRPM1_GRVWA8_GRVWB8_GSUAMB_GLS0_ISA942_IU1_K1_LBSPPA0_LBSPPB256_LBSPPM0_LPA0_LPB16_LPM0_LRVW8_LWPMn1_MIAV0_MIWT1_1_MO40_NTn1_NTA0_NTB0_NTC0_NTD0_NTM0_NEPBS0_NLCA4_NLCB1_ONLL1_PGR1_PLR1_PKA1_SIA3_SS0_SPO0_SRVW0_SSO0_SVW4_SK0_SKXCCM0_TLDS1_ULSGRO0_USL1_UIOFGRO0_USFGRO0_VSn1_VWA1_VWB1_WSGRA0_WSGRB0_WS64_WG32_4_1,@function
+.type Cijk_Alik_Bljk_HHS_STA_BH_UserArgs_MT32x16x128_MI16x16x1_SN_LDSB0_AFC0_AFEM1_AFEM1_ASEM1_CLR1_CADS0_DTVA1_DTVB0_EPS1_FDSI0_GRPM1_GRVWA8_GRVWB8_GSUAMB_GLS0_ISA942_IU1_K1_LBSPPA0_LBSPPB256_LBSPPM0_LPA0_LPB16_LPM0_LRVW8_LWPMn1_MIAV0_MIWT1_1_MO40_NTn1_NTA0_NTB0_NTC0_NTD0_NTM0_NEPBS0_NLCA4_NLCB1_ONLL1_PGR1_PLR1_PKA1_SIA3_SS0_SPO0_SRVW0_SSO0_SVW4_SK0_SKXCCM0_TLDS1_ULSGRO0_USL1_UIOFGRO0_USFGRO0_VSn1_VWA1_VWB1_WSGRA0_WSGRB0_WS64_WG32_4_1,@function
 .section .rodata,#alloc
 .p2align 6
-.amdhsa_kernel Cijk_Alik_Bljk_HHS_STA_BH_UserArgs_MT32x16x128_MI16x16x1_SN_LDSB0_AFC0_AFEM1_AFEM1_ASEM1_CLR1_CADS0_DTVA1_DTVB0_EPS0_FDSI0_GRPM1_GRVWA8_GRVWB8_GSUAMB_GLS0_ISA942_IU1_K1_LBSPPA0_LBSPPB256_LBSPPM0_LPA0_LPB16_LPM0_LRVW8_LWPMn1_MIAV0_MIWT1_1_MO40_NTn1_NTA0_NTB0_NTC0_NTD0_NTM0_NEPBS0_NLCA4_NLCB1_ONLL1_PGR1_PLR1_PKA1_SIA3_SS0_SPO0_SRVW0_SSO0_SVW4_SK0_SKXCCM0_TLDS1_ULSGRO0_USL1_UIOFGRO0_USFGRO0_VSn1_VWA1_VWB1_WSGRA0_WSGRB0_WS64_WG32_4_1
+.amdhsa_kernel Cijk_Alik_Bljk_HHS_STA_BH_UserArgs_MT32x16x128_MI16x16x1_SN_LDSB0_AFC0_AFEM1_AFEM1_ASEM1_CLR1_CADS0_DTVA1_DTVB0_EPS1_FDSI0_GRPM1_GRVWA8_GRVWB8_GSUAMB_GLS0_ISA942_IU1_K1_LBSPPA0_LBSPPB256_LBSPPM0_LPA0_LPB16_LPM0_LRVW8_LWPMn1_MIAV0_MIWT1_1_MO40_NTn1_NTA0_NTB0_NTC0_NTD0_NTM0_NEPBS0_NLCA4_NLCB1_ONLL1_PGR1_PLR1_PKA1_SIA3_SS0_SPO0_SRVW0_SSO0_SVW4_SK0_SKXCCM0_TLDS1_ULSGRO0_USL1_UIOFGRO0_USFGRO0_VSn1_VWA1_VWB1_WSGRA0_WSGRB0_WS64_WG32_4_1
   .amdhsa_user_sgpr_kernarg_segment_ptr 1
   .amdhsa_accum_offset 88 // accvgpr offset
   .amdhsa_next_free_vgpr 92 // vgprs
@@ -52,8 +52,8 @@ amdhsa.version:
   - 1
   - 1
 amdhsa.kernels:
-  - .name: Cijk_Alik_Bljk_HHS_STA_BH_UserArgs_MT32x16x128_MI16x16x1_SN_LDSB0_AFC0_AFEM1_AFEM1_ASEM1_CLR1_CADS0_DTVA1_DTVB0_EPS0_FDSI0_GRPM1_GRVWA8_GRVWB8_GSUAMB_GLS0_ISA942_IU1_K1_LBSPPA0_LBSPPB256_LBSPPM0_LPA0_LPB16_LPM0_LRVW8_LWPMn1_MIAV0_MIWT1_1_MO40_NTn1_NTA0_NTB0_NTC0_NTD0_NTM0_NEPBS0_NLCA4_NLCB1_ONLL1_PGR1_PLR1_PKA1_SIA3_SS0_SPO0_SRVW0_SSO0_SVW4_SK0_SKXCCM0_TLDS1_ULSGRO0_USL1_UIOFGRO0_USFGRO0_VSn1_VWA1_VWB1_WSGRA0_WSGRB0_WS64_WG32_4_1
-    .symbol: 'Cijk_Alik_Bljk_HHS_STA_BH_UserArgs_MT32x16x128_MI16x16x1_SN_LDSB0_AFC0_AFEM1_AFEM1_ASEM1_CLR1_CADS0_DTVA1_DTVB0_EPS0_FDSI0_GRPM1_GRVWA8_GRVWB8_GSUAMB_GLS0_ISA942_IU1_K1_LBSPPA0_LBSPPB256_LBSPPM0_LPA0_LPB16_LPM0_LRVW8_LWPMn1_MIAV0_MIWT1_1_MO40_NTn1_NTA0_NTB0_NTC0_NTD0_NTM0_NEPBS0_NLCA4_NLCB1_ONLL1_PGR1_PLR1_PKA1_SIA3_SS0_SPO0_SRVW0_SSO0_SVW4_SK0_SKXCCM0_TLDS1_ULSGRO0_USL1_UIOFGRO0_USFGRO0_VSn1_VWA1_VWB1_WSGRA0_WSGRB0_WS64_WG32_4_1.kd'
+  - .name: Cijk_Alik_Bljk_HHS_STA_BH_UserArgs_MT32x16x128_MI16x16x1_SN_LDSB0_AFC0_AFEM1_AFEM1_ASEM1_CLR1_CADS0_DTVA1_DTVB0_EPS1_FDSI0_GRPM1_GRVWA8_GRVWB8_GSUAMB_GLS0_ISA942_IU1_K1_LBSPPA0_LBSPPB256_LBSPPM0_LPA0_LPB16_LPM0_LRVW8_LWPMn1_MIAV0_MIWT1_1_MO40_NTn1_NTA0_NTB0_NTC0_NTD0_NTM0_NEPBS0_NLCA4_NLCB1_ONLL1_PGR1_PLR1_PKA1_SIA3_SS0_SPO0_SRVW0_SSO0_SVW4_SK0_SKXCCM0_TLDS1_ULSGRO0_USL1_UIOFGRO0_USFGRO0_VSn1_VWA1_VWB1_WSGRA0_WSGRB0_WS64_WG32_4_1
+    .symbol: 'Cijk_Alik_Bljk_HHS_STA_BH_UserArgs_MT32x16x128_MI16x16x1_SN_LDSB0_AFC0_AFEM1_AFEM1_ASEM1_CLR1_CADS0_DTVA1_DTVB0_EPS1_FDSI0_GRPM1_GRVWA8_GRVWB8_GSUAMB_GLS0_ISA942_IU1_K1_LBSPPA0_LBSPPB256_LBSPPM0_LPA0_LPB16_LPM0_LRVW8_LWPMn1_MIAV0_MIWT1_1_MO40_NTn1_NTA0_NTB0_NTC0_NTD0_NTM0_NEPBS0_NLCA4_NLCB1_ONLL1_PGR1_PLR1_PKA1_SIA3_SS0_SPO0_SRVW0_SSO0_SVW4_SK0_SKXCCM0_TLDS1_ULSGRO0_USL1_UIOFGRO0_USFGRO0_VSn1_VWA1_VWB1_WSGRA0_WSGRB0_WS64_WG32_4_1.kd'
     .language:                   OpenCL C
     .language_version:
       - 2
@@ -185,7 +185,7 @@ amdhsa.kernels:
     .wavefront_size:             64
 ...
 .end_amdgpu_metadata
-Cijk_Alik_Bljk_HHS_STA_BH_UserArgs_MT32x16x128_MI16x16x1_SN_LDSB0_AFC0_AFEM1_AFEM1_ASEM1_CLR1_CADS0_DTVA1_DTVB0_EPS0_FDSI0_GRPM1_GRVWA8_GRVWB8_GSUAMB_GLS0_ISA942_IU1_K1_LBSPPA0_LBSPPB256_LBSPPM0_LPA0_LPB16_LPM0_LRVW8_LWPMn1_MIAV0_MIWT1_1_MO40_NTn1_NTA0_NTB0_NTC0_NTD0_NTM0_NEPBS0_NLCA4_NLCB1_ONLL1_PGR1_PLR1_PKA1_SIA3_SS0_SPO0_SRVW0_SSO0_SVW4_SK0_SKXCCM0_TLDS1_ULSGRO0_USL1_UIOFGRO0_USFGRO0_VSn1_VWA1_VWB1_WSGRA0_WSGRB0_WS64_WG32_4_1:
+Cijk_Alik_Bljk_HHS_STA_BH_UserArgs_MT32x16x128_MI16x16x1_SN_LDSB0_AFC0_AFEM1_AFEM1_ASEM1_CLR1_CADS0_DTVA1_DTVB0_EPS1_FDSI0_GRPM1_GRVWA8_GRVWB8_GSUAMB_GLS0_ISA942_IU1_K1_LBSPPA0_LBSPPB256_LBSPPM0_LPA0_LPB16_LPM0_LRVW8_LWPMn1_MIAV0_MIWT1_1_MO40_NTn1_NTA0_NTB0_NTC0_NTD0_NTM0_NEPBS0_NLCA4_NLCB1_ONLL1_PGR1_PLR1_PKA1_SIA3_SS0_SPO0_SRVW0_SSO0_SVW4_SK0_SKXCCM0_TLDS1_ULSGRO0_USL1_UIOFGRO0_USFGRO0_VSn1_VWA1_VWB1_WSGRA0_WSGRB0_WS64_WG32_4_1:
 label_ASM_Start:  /// Main body of the asm kernel
 .macro V_MAGIC_DIV vgprDstIdx:req, dividend:req, magicNumber:req, magicShift:req, magicA:req
     v_mul_hi_u32 v[\vgprDstIdx+1], \dividend, \magicNumber
@@ -569,7 +569,7 @@ v_lshrrev_b32 v8, 6, v[vgprSerial]                 // 8 = Serial / 64
 v_and_b32 v9, 63, v[vgprSerial]                    // 9 = Serial % 64
 // Align to 32
 s_add_u32 s49, s[sgprSizesSum], 31
-s_lshr_b32 s49, s49, 0x5                           // SWZ-A: numKr = DimK / (32 * LSU(1))
+s_lshr_b32 s49, s49, 0x5                           // SWZ-A: numKr = DimK / 32)
 v_and_b32 v8, 0x1, v8                              // SWZ-A: wave_id (along_M) mod MIWG[0]
 v_mul_u32_u24 v8, s49, v8                          // SWZ-A: wave_id (along_M) *= numKr
 /* unroll *= glvw */
@@ -800,7 +800,7 @@ v_lshrrev_b32 v8, 6, v[vgprSerial]                 // 8 = Serial / 64
 v_and_b32 v9, 63, v[vgprSerial]                    // 9 = Serial % 64
 // Align to 32
 s_add_u32 s49, s[sgprSizesSum], 31
-s_lshr_b32 s49, s49, 0x5                           // SWZ-A: numKr = DimK / (32 * LSU(1))
+s_lshr_b32 s49, s49, 0x5                           // SWZ-A: numKr = DimK / 32)
 v_and_b32 v8, 0x1, v8                              // SWZ-A: wave_id (along_M) mod MIWG[0]
 v_mul_u32_u24 v8, s49, v8                          // SWZ-A: wave_id (along_M) *= numKr
 /* unroll *= glvw */
@@ -1230,7 +1230,7 @@ s_mov_b64 s[sgprShadowLimitA+0:sgprShadowLimitA+0+1], 1 // Init tensor size
 s_add_u32 s66, s[sgprSizeL], 31
 s_lshr_b32 s66, s66, 5
 s_lshl_b32 s66, s66, 5
-s_sub_u32 s66, s66, 1                              // SWZ-A align: (size-1)
+s_sub_u32 s66, s66, 1                              // SWZ-A align: (sizeL-1)
 s_mul_hi_u32 s67, constStrideAL, s66               // stride x (size-1)
 s_mul_i32 s66, constStrideAL, s66                  // stride x (size-1)
 s_add_u32 s[sgprShadowLimitA+0], s[sgprShadowLimitA+0], s66 // sum tensor size
@@ -1239,7 +1239,7 @@ s_addc_u32 s[sgprShadowLimitA+1], s[sgprShadowLimitA+1], s67 // sum tensor size
 s_add_u32 s66, s[sgprSizeI], 15
 s_lshr_b32 s66, s66, 4
 s_lshl_b32 s66, s66, 4
-s_sub_u32 s66, s66, 1                              // SWZ-A align: (size-1)
+s_sub_u32 s66, s66, 1                              // SWZ-A align: (sizeM-1)
 s_mul_hi_u32 s67, s[sgprStrideA0I], s66            // stride x (size-1)
 s_mul_i32 s66, s[sgprStrideA0I], s66               // stride x (size-1)
 s_add_u32 s[sgprShadowLimitA+0], s[sgprShadowLimitA+0], s66 // sum tensor size
@@ -1573,7 +1573,8 @@ ds_write_b128 v[vgprLocalWriteAddrB], v[vgprG2LB+4:vgprG2LB+4+3] offset:2304 // 
 /* local write swap a */
 
 /* local write swap b */
-v_xor_b32 v[vgprLocalWriteAddrB], 0x2000, v[vgprLocalWriteAddrB] // swap Red Blk
+
+/* (EPS=1) local write swap internal offset -> 8192 */
 s_waitcnt lgkmcnt(0)                               // 0prefetch wait for local write
 s_waitcnt 0                                        // force waitcnt0
 s_barrier
@@ -1681,15 +1682,16 @@ s_waitcnt vmcnt(7)                                 // global read wait for Direc
 s_sub_u32 s[sgprShadowLimitB+0], s[sgprShadowLimitB+0], s66 // limit -= inc)
 /* sched write - iter 4 writesPerItem=1 */
 s_waitcnt vmcnt(5)                                 // wait for global read before writing to local
-ds_write_b128 v[vgprLocalWriteAddrB], v[vgprG2LB+0:vgprG2LB+0+3] offset:0 // lwoB_0_0_0_0 = (0*LSCB)*(MT1J+PAD) + (0*LSPB) = 0
+ds_write_b128 v[vgprLocalWriteAddrB], v[vgprG2LB+0:vgprG2LB+0+3] offset:8192 // lwoB_0_0_0_0 = (0*LSCB)*(MT1J+PAD) + (0*LSPB) = 8192
 /* sched write - iter 4 writesPerItem=1 */
 s_waitcnt vmcnt(4)                                 // wait for global read before writing to local
-ds_write_b128 v[vgprLocalWriteAddrB], v[vgprG2LB+4:vgprG2LB+4+3] offset:2304 // lwoB_0_0_1_0 = (0*LSCB)*(MT1J+PAD) + (1*LSPB) = 2304
+ds_write_b128 v[vgprLocalWriteAddrB], v[vgprG2LB+4:vgprG2LB+4+3] offset:10496 // lwoB_0_0_1_0 = (0*LSCB)*(MT1J+PAD) + (1*LSPB) = 10496
 
 /* local write swap offsets a */
 
 /* local write swap offsets b */
-v_xor_b32 v[vgprLocalWriteAddrB], 0x2000, v[vgprLocalWriteAddrB] // swap Red Blk
+
+/* (EPS=1) local write swap internal offset -> 0 */
 s_waitcnt lgkmcnt(3)                               // wait for prior local read local write old=0, new=3 newLW=2 newLR=1
 v_mfma_f32_16x16x16_f16 acc[0:3], v[vgprG2LA+8+0:vgprG2LA+8+0+1], v[vgprValuB_X4_I0+0+0+0:vgprValuB_X4_I0+0+0+0+1], acc[0:3] // left value = acc[0+0:3+0]
 /* numPrefetchIter=0 */
@@ -1719,7 +1721,8 @@ s_cmp_eq_u32 s[sgprShadowLimitB+1], 0              // are we within 2^32?
 /* local read swap offsets a */
 
 /* local read swap offsets b */
-v_xor_b32 v[vgprLocalReadAddrB], 0x2000, v[vgprLocalReadAddrB] // swap Red Blk
+
+/* local read swap internal offset -> 8192 */
 
 /* local read init pointers a */
 
@@ -1740,7 +1743,7 @@ s_cselect_b32 s[sgprSrdB+2], s[sgprShadowLimitB+0], BufferLimit // Move shadow t
 s_waitcnt lgkmcnt(0)                               // 3wait for local write
 // Skip force waitcnt0
 s_barrier
-ds_read_b128 v[vgprValuB_X0_I0+0:vgprValuB_X0_I0+0+3], v[vgprLocalReadAddrB] offset:0 // L -> Reg lro=0 swapByteOffset=0 ti=16 vIdx=0 eIdx=0 rIdx=0 oIdx=0 buffer=0 iui=0
+ds_read_b128 v[vgprValuB_X0_I0+0:vgprValuB_X0_I0+0+3], v[vgprLocalReadAddrB] offset:8192 // L -> Reg lro=0 swapByteOffset=8192 ti=16 vIdx=0 eIdx=0 rIdx=0 oIdx=0 buffer=0 iui=0
 s_waitcnt lgkmcnt(3)                               // wait for prior local read local write old=0, new=3 newLW=2 newLR=1
 v_mfma_f32_16x16x16_f16 acc[0:3], v[vgprG2LA+12+2:vgprG2LA+12+2+1], v[vgprValuB_X6_I0+0+2+0:vgprValuB_X6_I0+0+2+0+1], acc[0:3] // left value = acc[0+0:3+0]
 /* numPrefetchIter=1 */
@@ -1754,7 +1757,7 @@ v_mfma_f32_16x16x16_f16 acc[0:3], v[vgprG2LA+12+2:vgprG2LA+12+2+1], v[vgprValuB_
 /* closeLoop loopL finalLoop=0 tailLoop=0 */
 s_sub_u32 s[sgprLoopCounterL], s[sgprLoopCounterL], 1 // dec counterL
 s_cmp_eq_i32 s[sgprLoopCounterL], 0x1              // counterL==1
-s_cbranch_scc1 label_LoopEndL                      // exit LoopL
+s_cbranch_scc1 label_LoopEndL_oddexit              // exit LoopL
 
 /******************************************/
 /* Unrolled Loop 2/2 - Begin              */
@@ -1767,7 +1770,7 @@ s_waitcnt vmcnt(3)                                 // global read wait for Direc
 /*  grEndMfmaIndex:4, lwStartMfmaIndex:4, lwEndMfmaIndex:4  */
 /*  numMfmaForLR:0, syncPlrMfmaIndex:7  */
 /*  mfmaIndex:0  */
-ds_read_b128 v[vgprValuB_X2_I0+0:vgprValuB_X2_I0+0+3], v[vgprLocalReadAddrB] offset:64 // L -> Reg lro=32 swapByteOffset=0 ti=16 vIdx=0 eIdx=0 rIdx=0 oIdx=0 buffer=2 iui=0
+ds_read_b128 v[vgprValuB_X2_I0+0:vgprValuB_X2_I0+0+3], v[vgprLocalReadAddrB] offset:8256 // L -> Reg lro=32 swapByteOffset=8192 ti=16 vIdx=0 eIdx=0 rIdx=0 oIdx=0 buffer=2 iui=0
 buffer_load_dwordx4 v[vgprG2LB+0:vgprG2LB+0+3], v[vgprGlobalReadOffsetB+0], s[sgprSrdB:sgprSrdB+3], 0 offen offset:0 // G -> Reg 0_0_0_0
 buffer_load_dwordx4 v[vgprG2LB+4:vgprG2LB+4+3], v[vgprGlobalReadOffsetB+1], s[sgprSrdB:sgprSrdB+3], 0 offen offset:0 // G -> Reg 0_0_1_0
 buffer_load_dwordx4 v[vgprG2LA+0:vgprG2LA+0+3], v[vgprGlobalReadOffsetA+0], s[sgprSrdA:sgprSrdA+3], 0 offen offset:0 // G -> Reg 0_0_0_0
@@ -1799,7 +1802,7 @@ v_mfma_f32_16x16x16_f16 acc[0:3], v[vgprG2LA+16+0:vgprG2LA+16+0+1], v[vgprValuB_
 /*  grEndMfmaIndex:4, lwStartMfmaIndex:4, lwEndMfmaIndex:4  */
 /*  numMfmaForLR:0, syncPlrMfmaIndex:7  */
 /*  mfmaIndex:1  */
-ds_read_b128 v[vgprValuB_X4_I0+0:vgprValuB_X4_I0+0+3], v[vgprLocalReadAddrB] offset:128 // L -> Reg lro=64 swapByteOffset=0 ti=16 vIdx=0 eIdx=0 rIdx=0 oIdx=0 buffer=4 iui=0
+ds_read_b128 v[vgprValuB_X4_I0+0:vgprValuB_X4_I0+0+3], v[vgprLocalReadAddrB] offset:8320 // L -> Reg lro=64 swapByteOffset=8192 ti=16 vIdx=0 eIdx=0 rIdx=0 oIdx=0 buffer=4 iui=0
 s_cselect_b32 s67, s[sgprWrapUB+1], 0              // incUpper <- ?
 s_waitcnt lgkmcnt(2)                               // wait for prior local read local write old=0, new=2 newLW=0 newLR=2
 v_mfma_f32_16x16x16_f16 acc[0:3], v[vgprG2LA+16+2:vgprG2LA+16+2+1], v[vgprValuB_X0_I0+0+2+0:vgprValuB_X0_I0+0+2+0+1], acc[0:3] // left value = acc[0+0:3+0]
@@ -1812,7 +1815,7 @@ s_waitcnt vmcnt(8)                                 // global read wait for Direc
 /*  grEndMfmaIndex:4, lwStartMfmaIndex:4, lwEndMfmaIndex:4  */
 /*  numMfmaForLR:0, syncPlrMfmaIndex:7  */
 /*  mfmaIndex:2  */
-ds_read_b128 v[vgprValuB_X6_I0+0:vgprValuB_X6_I0+0+3], v[vgprLocalReadAddrB] offset:192 // L -> Reg lro=96 swapByteOffset=0 ti=16 vIdx=0 eIdx=0 rIdx=0 oIdx=0 buffer=6 iui=0
+ds_read_b128 v[vgprValuB_X6_I0+0:vgprValuB_X6_I0+0+3], v[vgprLocalReadAddrB] offset:8384 // L -> Reg lro=96 swapByteOffset=8192 ti=16 vIdx=0 eIdx=0 rIdx=0 oIdx=0 buffer=6 iui=0
 s_add_u32 s[sgprSrdB+0], s[sgprSrdB+0], s66        // gra SRD += inc(lower)
 s_waitcnt lgkmcnt(2)                               // wait for prior local read local write old=0, new=2 newLW=0 newLR=2
 v_mfma_f32_16x16x16_f16 acc[0:3], v[vgprG2LA+20+0:vgprG2LA+20+0+1], v[vgprValuB_X2_I0+0+0+0:vgprValuB_X2_I0+0+0+0+1], acc[0:3] // left value = acc[0+0:3+0]
@@ -1848,7 +1851,8 @@ ds_write_b128 v[vgprLocalWriteAddrB], v[vgprG2LB+4:vgprG2LB+4+3] offset:2304 // 
 /* local write swap offsets a */
 
 /* local write swap offsets b */
-v_xor_b32 v[vgprLocalWriteAddrB], 0x2000, v[vgprLocalWriteAddrB] // swap Red Blk
+
+/* (EPS=1) local write swap internal offset -> 8192 */
 s_waitcnt lgkmcnt(3)                               // wait for prior local read local write old=0, new=3 newLW=2 newLR=1
 v_mfma_f32_16x16x16_f16 acc[0:3], v[vgprG2LA+24+0:vgprG2LA+24+0+1], v[vgprValuB_X4_I0+0+0+0:vgprValuB_X4_I0+0+0+0+1], acc[0:3] // left value = acc[0+0:3+0]
 /* numPrefetchIter=0 */
@@ -1878,7 +1882,8 @@ s_cmp_eq_u32 s[sgprShadowLimitB+1], 0              // are we within 2^32?
 /* local read swap offsets a */
 
 /* local read swap offsets b */
-v_xor_b32 v[vgprLocalReadAddrB], 0x2000, v[vgprLocalReadAddrB] // swap Red Blk
+
+/* local read swap internal offset -> 0 */
 
 /* local read init pointers a */
 
@@ -1914,6 +1919,12 @@ v_mfma_f32_16x16x16_f16 acc[0:3], v[vgprG2LA+28+2:vgprG2LA+28+2+1], v[vgprValuB_
 s_sub_u32 s[sgprLoopCounterL], s[sgprLoopCounterL], 1 // dec counterL
 s_cmp_eq_i32 s[sgprLoopCounterL], 0x1              // counterL==1
 s_cbranch_scc0 label_LoopBeginL                    // restart LoopL
+label_LoopEndL_evenexit:  /// unroll loop eveniter exit
+s_branch label_LoopEndL                            // exit unroll loopL (and skip second exit code)
+label_LoopEndL_oddexit:  /// unroll loop odditer exit
+
+/* Select high bank of LDS */
+v_xor_b32 v[vgprLocalReadAddrB], 0x2000, v[vgprLocalReadAddrB] // swap Red Blk
 label_LoopEndL:
 
 /* Before NLL: Check VGPR.checkin for INT8 LW */
