@@ -114,7 +114,8 @@ public:
         outputD_h = std::vector<_Float16>(M * N, (_Float16)0.0f);
 
         HIP_CHECK_EXC(inputA_d.alloc(sizeof(_Float16) * M * K));
-        HIP_CHECK_EXC(inputB_d.alloc(sizeof(_Float16) * N * K));
+        // alloc after swizzled padded
+        // HIP_CHECK_EXC(inputB_d.alloc(sizeof(_Float16) * N * K));
         HIP_CHECK_EXC(inputC_d.alloc(sizeof(_Float16) * M * N));
         HIP_CHECK_EXC(outputD_d.alloc(sizeof(_Float16) * M * N));
 
@@ -161,6 +162,8 @@ public:
         // Tensor::Manipulation::printTensorDataMultiDims<_Float16>(std::cout, swizzledB_h);
         print_row_by_row(swizzledB_h.as<_Float16>(), K/8, 8*N, false);
 
+        // final memory size is padded
+        HIP_CHECK_EXC(inputB_d.alloc(swizzledB_h.getNumBytes()));
 
         // copy to device
         HIP_CHECK_EXC(hipMemcpy(inputA_d.data(),

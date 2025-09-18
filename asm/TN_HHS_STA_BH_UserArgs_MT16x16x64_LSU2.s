@@ -39,7 +39,6 @@
 /* SubGroup= 4 x 16 */
 /* VectorWidthA=1 */
 /* VectorWidthB=1 */
-/* LocalReadVectorWidth=8 */
 /* GlobalReadVectorWidthA=8, GlobalReadVectorWidthB=8 */
 /* DirectToLdsA=False */
 /* DirectToLdsB=False */
@@ -562,31 +561,13 @@ v_lshl_add_u32 v[vgprLocalReadAddrB], v6, 5, v[vgprLocalReadAddrB] // Final Offs
 /* v5 = A-unroll = serial%LVCA */
 /* TileAssignment for DirectToVgprA and SwizzleTensorA */
 v_lshrrev_b32 v4, 6, v[vgprSerial]                 // 4 = Serial / 64
-/* Ethan LSU Test MOVED */
 v_and_b32 v5, 63, v[vgprSerial]                    // 5 = Serial % 64
-
-/* Ethan LSU Test LSU-Offsets : only allow lsu(1,2,4,8) <-> lsuStride(64,32,16,8), (min-lsuStride=8) */
-// v_lshrrev_b32 v5, 0, v4                            // LSU offset: Get LSU wave_id
-// s_mov_b32 s27, 32                                  // LSU offset: lsuStrideK(32)
-// v_lshlrev_b32 v5, 8, v5                            // LSU offset: lsu_id*lsuStrideK(32)*GRVW(8) = lsu_id << 8
-/* End of Ethan LSU Test LSU-Offsets */
-
 // Align to 32
 s_add_u32 s27, s[sgprSizesSum], 31
-
-/* Begin of Ethan: test LSU: */
-s_lshr_b32 s27, s27, 0x6                           // SWZ-A: numKr = DimK / (32 * LSU)
-// s_lshr_b32 s27, s27, 0x5                           // SWZ-A: numKr = DimK / 32
-/* End of Ethan: test LSU */
-
+s_lshr_b32 s27, s27, 0x5                           // SWZ-A: numKr = DimK / 32
 v_and_b32 v4, 0x0, v4                              // SWZ-A: wave_id (along_M) mod MIWG[0]
 v_mul_u32_u24 v4, s27, v4                          // SWZ-A: wave_id (along_M) *= numKr
-/* Ethan LSU: offset += LSUoffset*/
-// v_add_u32 v4, v5, v4
-
 /* unroll *= glvw */
-/* Ethan LSU Test MOVED To Here*/
-// v_and_b32 v5, 63, v[vgprSerial]                    // 5 = Serial % 64
 v_lshlrev_b32 v5, 3, v5                            // v5 = v5 * 8
 v_mov_b32 v21, v5                                  // copy for GlobalSplitU
 /* LVCB = 8 */
@@ -811,31 +792,13 @@ v_lshl_add_u32 v[vgprLocalReadAddrB], v6, 5, v[vgprLocalReadAddrB] // Final Offs
 /* v5 = A-unroll = serial%LVCA */
 /* TileAssignment for DirectToVgprA and SwizzleTensorA */
 v_lshrrev_b32 v4, 6, v[vgprSerial]                 // 4 = Serial / 64
-/* Ethan LSU Test MOVED */
 v_and_b32 v5, 63, v[vgprSerial]                    // 5 = Serial % 64
-
-/* Ethan LSU Test LSU-Offsets : only allow lsu(1,2,4,8) <-> lsuStride(64,32,16,8), (min-lsuStride=8) */
-// v_lshrrev_b32 v5, 0, v4                            // LSU offset: Get LSU wave_id
-// s_mov_b32 s27, 32                                  // LSU offset: lsuStrideK(32)
-// v_lshlrev_b32 v5, 8, v5                            // LSU offset: lsu_id*lsuStrideK(32)*GRVW(8) = lsu_id << 8
-/* End of Ethan LSU Test LSU-Offsets */
-
 // Align to 32
 s_add_u32 s27, s[sgprSizesSum], 31
-
-/* Begin of Ethan: test LSU: */
-s_lshr_b32 s27, s27, 0x6                           // SWZ-A: numKr = DimK / (32 * LSU)
-// s_lshr_b32 s27, s27, 0x5                           // SWZ-A: numKr = DimK / 32
-/* End of Ethan: test LSU */
-
+s_lshr_b32 s27, s27, 0x5                           // SWZ-A: numKr = DimK / 32
 v_and_b32 v4, 0x0, v4                              // SWZ-A: wave_id (along_M) mod MIWG[0]
 v_mul_u32_u24 v4, s27, v4                          // SWZ-A: wave_id (along_M) *= numKr
-/* Ethan LSU: offset += LSUoffset*/
-// v_add_u32 v4, v5, v4
-
 /* unroll *= glvw */
-/* Ethan LSU Test MOVED To Here*/
-// v_and_b32 v5, 63, v[vgprSerial]                    // 5 = Serial % 64
 v_lshlrev_b32 v5, 3, v5                            // v5 = v5 * 8
 v_mov_b32 v21, v5                                  // copy for GlobalSplitU
 /* LVCB = 8 */
@@ -1170,35 +1133,12 @@ label_WGM:
 /* global read addresses: tile offsets a */
 /* SWZ-A: calculation of groA0I_0 */
 v_mov_b32 v22, v4
-
-/* Begin of Ethan: test LSU */
-s_mov_b32 s68, 0x400                               // swizzled block * VW = (MI_M(16) * MI_K(16) * kPack * LSU) * VW(1)
-// s_mov_b32 s68, 0x200                               // swizzled block * VW = (MI_M(16) * MI_K(16) * kPack) * VW(1)
-/* End of Ethan: test LSU */
-
+s_mov_b32 s68, 0x200                               // swizzled block * VW = (MI_M(16) * MI_K(16) * kPack) * VW(1)
 v_mov_b32 v23, s68
 v_mul_u32_u24 v22, v22, v23
-
-/* Begin of Ethan: test LSU, only allow lsu(1,2,4,8) <-> lsuStride(64,32,16,8), (min-lsuStride=8) */
-v_lshrrev_b32 v23, 6, v[vgprSerial]                // wave_id = Serial / 64
-v_lshrrev_b32 v23, 0, v23                            // LSU offset: Get LSU wave_id
-v_lshlrev_b32 v23, 9, v23                            // LSU offset: lsu_id*MI_M(16)*lsuStrideK(32) = lsu_id << 9
-v_add_u32 v22, v23, v22
-
-// s_mov_b32 s27, 32                                  // LSU offset: lsuStrideK(32)
-// v_and_b32 v23, 0x1, v23                            // wave_id % LSU
-// v_lshlrev_b32 v23, 0x7, v23                        // (wave_id % LSU) * (GRVW(8) * 16)
-// v_add_u32 v22, v23, v22                            // SWZ-A: tile offset += (wave_id % LSU) * (GRVW(8) * 16)
-/* End of Ethan: test LSU */
-
 /* swzStridePerWave = (number of swizzle block in K) * WaveGroup_MorN */
 s_add_u32 s69, s[sgprSizesSum], 31                 // Align to 32
-
-/* Begin of Ethan: test LSU */
-s_lshr_b32 s69, s69, 0x6                           // numKr = (DimK * LSU) / swizzleK
-// s_lshr_b32 s69, s69, 0x5                           // numKr = DimK / swizzleK
-/* End of Ethan: test LSU */
-
+s_lshr_b32 s69, s69, 0x5                           // numKr = DimK / swizzleK
 s_mul_i32 s69, 0x1, s69                            // numKr *= MI_WaveGroup, wave-M (SWZ-A) or wave-N (SWZ-B)
 /* swzBlkVWOffset = swzBlkWvGSize - laneSize * (VW - 1) */
 s_mul_i32 s68, s69, s68                            // swzBlkWvGSize = numKr * (swzBlockSize * VW)
@@ -1210,36 +1150,24 @@ v_mov_b32 v23, v6                                  // groB1J_0
 
 /* global read addresses: unroll offsets a */
 /* SWZ-A: r = swzRow = (tid / swzMorN(16)) * laneSize(8) */
-/* Ethan: r = v26 = coord along K (intv = 8) = [0, 8, 16, 24] */
 v_and_b32 v25, v[vgprSerial], 63                   // tid
 v_lshrrev_b32 v26, 0x4, v25
 v_lshlrev_b32 v26, 0x3, v26
 /* SWZ-A: c = swzCol = [tid mod (swzMorN(16) / VW(1))] * VW(1) */
-/* Ethan: c = v27 = coord along M (0~15)*/
 v_and_b32 v27, v25, 15
 /* SWZ-A: F = r mod laneSize + c * laneSize + (r/laneSize) * swzMorN * laneSize */
-/* Ethan: SWZ-A: F = r mod laneSize + c * laneSize + (r/laneSize) * (swzMorN * LSU) * laneSize */
 v_lshrrev_b32 v28, 0x3, v26                        // tmp = r / laneSize
-
-/* Begin of Ethan: tmp *= swzMorN * laneSize */
-// v_lshlrev_b32 v28, 0x8, v28
 v_lshlrev_b32 v28, 0x7, v28                        // tmp *= swzMorN * laneSize
-/* End of Ethan */
-
-/* Ethan: += along M */
 v_mad_u32_u24 v28, v27, 8, v28                     // tmp += c * laneSize
-/* Ethan: This following line seems redundant, v26 should be 0 always... */
 v_and_b32 v26, v26, 7                              // tmp2 = row mod laneSize
-/* Ethan: v25 = flattened offset along M coord along M (0~15) */
 v_add_u32 v25, v28, v26                            // offset = tmp + tmp2
 
 /* global read addresses: unroll offsets b */
 v_mov_b32 v26, v7                                  // groBL_0
 
 /* global read addresses: final offsets a */
-// s_mov_b32 s67, 0x200                               // SWZ-A: swizzled block = MI_M(16) * MI_K(16) * pack-K(2)
+s_mov_b32 s67, 0x200                               // SWZ-A: swizzled block = MI_M(16) * MI_K(16) * pack-K(2)
 GLOBAL_OFFSET_A_SWIZZLED vgprGlobalReadOffsetA+0, 25, 22, 27 // gROA_0_0_0_0
-// GLOBAL_OFFSET_A_SWIZZLED vgprGlobalReadOffsetA+0, 28, 22, 27 // gROA_0_0_0_0
 
 /* global read addresses: final offsets b */
 GLOBAL_OFFSET_B vgprGlobalReadOffsetB+0, 26, 23, 27 // gROB_0_0_0_0
@@ -1643,179 +1571,173 @@ v_xor_b32 v[vgprLocalWriteAddrB], 0x1000, v[vgprLocalWriteAddrB] // swap Red Blk
 label_openLoopL:
 s_cmp_le_u32 s[sgprLoopCounterL], 0x1              // LoopCounterL < EndCounter
 s_cbranch_scc1 label_LoopEndL                      // do not enter LoopL
+label_LoopBeginL:
 
-/* Ethan Test: Directly Go to NLL */
+/******************************************/
+/* Unrolled Loop 1/2 - Begin              */
+/******************************************/
+s_waitcnt lgkmcnt(0)                               // 1wait for local write
+s_waitcnt 0                                        // force waitcnt0
+s_barrier                                          // 4sync for global read
 
-// label_LoopBeginL:
+/* Begin Each Unroll: Check VGPR.checkin for INT8 LW */
 
-// /******************************************/
-// /* Unrolled Loop 1/2 - Begin              */
-// /******************************************/
-// s_waitcnt lgkmcnt(0)                               // 1wait for local write
-// s_waitcnt 0                                        // force waitcnt0
-// s_barrier                                          // 4sync for global read
+/* iter 0 */
+s_waitcnt vmcnt(0)                                 // global read wait for DirectToVgpr
+/*  grEndMfmaIndex:1, lwStartMfmaIndex:1, lwEndMfmaIndex:1  */
+/*  numMfmaForLR:0, syncPlrMfmaIndex:0  */
+/*  mfmaIndex:0  */
+ds_read_b128 v[vgprValuB_X0_I0+0:vgprValuB_X0_I0+0+3], v[vgprLocalReadAddrB] offset:0 // L -> Reg lro=0 swapByteOffset=0 ti=16 vIdx=0 eIdx=0 rIdx=0 oIdx=0 buffer=0 iui=0
+buffer_load_dwordx4 v[vgprG2LB+0:vgprG2LB+0+3], v[vgprGlobalReadOffsetB+0], s[sgprSrdB:sgprSrdB+3], 0 offen offset:0 // G -> Reg 0_0_0_0
+buffer_load_dwordx4 v[vgprG2LA2+0:vgprG2LA2+0+3], v[vgprGlobalReadOffsetA+0], s[sgprSrdA:sgprSrdA+3], 0 offen offset:0 // G -> Reg 0_0_0_0
 
-// /* Begin Each Unroll: Check VGPR.checkin for INT8 LW */
+/* global read inc A loopL */
+s_cmp_eq_u32 s[sgprLoopCounterL], s[sgprStaggerUIter] // Is this the wrapIter?
+s_cselect_b32 s68, s[sgprWrapUA+0], s[sgprGlobalReadIncsA+0] // incLower <- ?
+s_cselect_b32 s69, s[sgprWrapUA+1], 0              // incUpper <- ?
+s_add_u32 s[sgprSrdA+0], s[sgprSrdA+0], s68        // gra SRD += inc(lower)
+s_addc_u32 s[sgprSrdA+1], s[sgprSrdA+1], s69       // gra SRD += inc(upper)
+s_sub_u32 s[sgprShadowLimitA+0], s[sgprShadowLimitA+0], s68 // limit -= inc)
+s_subb_u32 s[sgprShadowLimitA+1], s[sgprShadowLimitA+1], s69 // limit -= inc)
+s_cmp_eq_u32 s[sgprShadowLimitA+1], 0              // are we within 2^32?
+s_cselect_b32 s[sgprSrdA+2], s[sgprShadowLimitA+0], BufferLimit // Move shadow to real if we are within 2^32
 
-// /* iter 0 */
-// s_waitcnt vmcnt(0)                                 // global read wait for DirectToVgpr
-// /*  grEndMfmaIndex:1, lwStartMfmaIndex:1, lwEndMfmaIndex:1  */
-// /*  numMfmaForLR:0, syncPlrMfmaIndex:0  */
-// /*  mfmaIndex:0  */
-// ds_read_b128 v[vgprValuB_X0_I0+0:vgprValuB_X0_I0+0+3], v[vgprLocalReadAddrB] offset:0 // L -> Reg lro=0 swapByteOffset=0 ti=16 vIdx=0 eIdx=0 rIdx=0 oIdx=0 buffer=0 iui=0
-// buffer_load_dwordx4 v[vgprG2LB+0:vgprG2LB+0+3], v[vgprGlobalReadOffsetB+0], s[sgprSrdB:sgprSrdB+3], 0 offen offset:0 // G -> Reg 0_0_0_0
-// buffer_load_dwordx4 v[vgprG2LA2+0:vgprG2LA2+0+3], v[vgprGlobalReadOffsetA+0], s[sgprSrdA:sgprSrdA+3], 0 offen offset:0 // G -> Reg 0_0_0_0
+/* global read inc B loopL */
+s_cmp_eq_u32 s[sgprLoopCounterL], s[sgprStaggerUIter] // Is this the wrapIter?
+s_cselect_b32 s68, s[sgprWrapUB+0], s[sgprGlobalReadIncsB+0] // incLower <- ?
+s_cselect_b32 s69, s[sgprWrapUB+1], 0              // incUpper <- ?
+s_add_u32 s[sgprSrdB+0], s[sgprSrdB+0], s68        // gra SRD += inc(lower)
+s_addc_u32 s[sgprSrdB+1], s[sgprSrdB+1], s69       // gra SRD += inc(upper)
+s_sub_u32 s[sgprShadowLimitB+0], s[sgprShadowLimitB+0], s68 // limit -= inc)
+s_subb_u32 s[sgprShadowLimitB+1], s[sgprShadowLimitB+1], s69 // limit -= inc)
+s_cmp_eq_u32 s[sgprShadowLimitB+1], 0              // are we within 2^32?
+s_waitcnt lgkmcnt(0)                               // Wait for dependent lr
+v_mfma_f32_16x16x16_f16 acc[0:3], v[vgprG2LA+0+0:vgprG2LA+0+0+1], v[vgprValuB_X0_I0+0+0+0:vgprValuB_X0_I0+0+0+0+1], acc[0:3] // left value = acc[0+0:3+0]
+/* numPrefetchIter=0 */
+/* dataAtIterA=0 numReadsIterA=1 skipReadsIterA=0 readsPerIterA=0 */
+/* dataAtIterB=0 numReadsIterB=1 skipReadsIterB=0 readsPerIterB=1 */
 
-// /* global read inc A loopL */
-// s_cmp_eq_u32 s[sgprLoopCounterL], s[sgprStaggerUIter] // Is this the wrapIter?
-// s_cselect_b32 s68, s[sgprWrapUA+0], s[sgprGlobalReadIncsA+0] // incLower <- ?
-// s_cselect_b32 s69, s[sgprWrapUA+1], 0              // incUpper <- ?
-// s_add_u32 s[sgprSrdA+0], s[sgprSrdA+0], s68        // gra SRD += inc(lower)
-// s_addc_u32 s[sgprSrdA+1], s[sgprSrdA+1], s69       // gra SRD += inc(upper)
-// s_sub_u32 s[sgprShadowLimitA+0], s[sgprShadowLimitA+0], s68 // limit -= inc)
-// s_subb_u32 s[sgprShadowLimitA+1], s[sgprShadowLimitA+1], s69 // limit -= inc)
-// s_cmp_eq_u32 s[sgprShadowLimitA+1], 0              // are we within 2^32?
-// s_cselect_b32 s[sgprSrdA+2], s[sgprShadowLimitA+0], BufferLimit // Move shadow to real if we are within 2^32
+/* iter 1 (reset local read pointers iteration)  (swap and reset local write pointers iteration)  (swap local read pointers iteration)  */
+/*  grEndMfmaIndex:1, lwStartMfmaIndex:1, lwEndMfmaIndex:1  */
+/*  numMfmaForLR:0, syncPlrMfmaIndex:0  */
+/*  mfmaIndex:1  */
+/* localReadsVacancy: latencyLeft 2 */
+s_cselect_b32 s[sgprSrdB+2], s[sgprShadowLimitB+0], BufferLimit // Move shadow to real if we are within 2^32
+/* sched write - iter 1 writesPerItem=1 */
+s_waitcnt vmcnt(1)                                 // wait for global read before writing to local
+ds_write_b128 v[vgprLocalWriteAddrB], v[vgprG2LB+0:vgprG2LB+0+3] offset:0 // lwoB_0_0_0_0 = (0*LSCB)*(MT1J+PAD) + (0*LSPB) = 0
 
-// /* global read inc B loopL */
-// s_cmp_eq_u32 s[sgprLoopCounterL], s[sgprStaggerUIter] // Is this the wrapIter?
-// s_cselect_b32 s68, s[sgprWrapUB+0], s[sgprGlobalReadIncsB+0] // incLower <- ?
-// s_cselect_b32 s69, s[sgprWrapUB+1], 0              // incUpper <- ?
-// s_add_u32 s[sgprSrdB+0], s[sgprSrdB+0], s68        // gra SRD += inc(lower)
-// s_addc_u32 s[sgprSrdB+1], s[sgprSrdB+1], s69       // gra SRD += inc(upper)
-// s_sub_u32 s[sgprShadowLimitB+0], s[sgprShadowLimitB+0], s68 // limit -= inc)
-// s_subb_u32 s[sgprShadowLimitB+1], s[sgprShadowLimitB+1], s69 // limit -= inc)
-// s_cmp_eq_u32 s[sgprShadowLimitB+1], 0              // are we within 2^32?
-// s_waitcnt lgkmcnt(0)                               // Wait for dependent lr
-// v_mfma_f32_16x16x16_f16 acc[0:3], v[vgprG2LA+0+0:vgprG2LA+0+0+1], v[vgprValuB_X0_I0+0+0+0:vgprValuB_X0_I0+0+0+0+1], acc[0:3] // left value = acc[0+0:3+0]
-// /* numPrefetchIter=0 */
-// /* dataAtIterA=0 numReadsIterA=1 skipReadsIterA=0 readsPerIterA=0 */
-// /* dataAtIterB=0 numReadsIterB=1 skipReadsIterB=0 readsPerIterB=1 */
+/* local write swap offsets a */
 
-// /* iter 1 (reset local read pointers iteration)  (swap and reset local write pointers iteration)  (swap local read pointers iteration)  */
-// /*  grEndMfmaIndex:1, lwStartMfmaIndex:1, lwEndMfmaIndex:1  */
-// /*  numMfmaForLR:0, syncPlrMfmaIndex:0  */
-// /*  mfmaIndex:1  */
-// /* localReadsVacancy: latencyLeft 2 */
-// s_cselect_b32 s[sgprSrdB+2], s[sgprShadowLimitB+0], BufferLimit // Move shadow to real if we are within 2^32
-// /* sched write - iter 1 writesPerItem=1 */
-// s_waitcnt vmcnt(1)                                 // wait for global read before writing to local
-// ds_write_b128 v[vgprLocalWriteAddrB], v[vgprG2LB+0:vgprG2LB+0+3] offset:0 // lwoB_0_0_0_0 = (0*LSCB)*(MT1J+PAD) + (0*LSPB) = 0
+/* local write swap offsets b */
+v_xor_b32 v[vgprLocalWriteAddrB], 0x1000, v[vgprLocalWriteAddrB] // swap Red Blk
 
-// /* local write swap offsets a */
+/* local read swap offsets a */
 
-// /* local write swap offsets b */
-// v_xor_b32 v[vgprLocalWriteAddrB], 0x1000, v[vgprLocalWriteAddrB] // swap Red Blk
+/* local read swap offsets b */
+v_xor_b32 v[vgprLocalReadAddrB], 0x1000, v[vgprLocalReadAddrB] // swap Red Blk
 
-// /* local read swap offsets a */
+/* local read init pointers a */
 
-// /* local read swap offsets b */
-// v_xor_b32 v[vgprLocalReadAddrB], 0x1000, v[vgprLocalReadAddrB] // swap Red Blk
+/* local read init pointers b */
 
-// /* local read init pointers a */
+/* localReadInitPointers */
+v_mfma_f32_16x16x16_f16 acc[0:3], v[vgprG2LA+0+2:vgprG2LA+0+2+1], v[vgprValuB_X0_I0+0+2+0:vgprValuB_X0_I0+0+2+0+1], acc[0:3] // left value = acc[0+0:3+0]
+/* numPrefetchIter=0 */
+/* dataAtIterA=0 numReadsIterA=1 skipReadsIterA=0 readsPerIterA=0 */
+/* dataAtIterB=0 numReadsIterB=1 skipReadsIterB=0 readsPerIterB=1 */
 
-// /* local read init pointers b */
+/******************************************/
+/* Unrolled Loop - End 1/2                */
+/******************************************/
 
-// /* localReadInitPointers */
-// v_mfma_f32_16x16x16_f16 acc[0:3], v[vgprG2LA+0+2:vgprG2LA+0+2+1], v[vgprValuB_X0_I0+0+2+0:vgprValuB_X0_I0+0+2+0+1], acc[0:3] // left value = acc[0+0:3+0]
-// /* numPrefetchIter=0 */
-// /* dataAtIterA=0 numReadsIterA=1 skipReadsIterA=0 readsPerIterA=0 */
-// /* dataAtIterB=0 numReadsIterB=1 skipReadsIterB=0 readsPerIterB=1 */
+/* closeLoop loopL finalLoop=0 tailLoop=0 */
+s_sub_u32 s[sgprLoopCounterL], s[sgprLoopCounterL], 1 // dec counterL
+s_cmp_eq_i32 s[sgprLoopCounterL], 0x1              // counterL==1
+s_cbranch_scc1 label_LoopEndL                      // exit LoopL
 
-// /******************************************/
-// /* Unrolled Loop - End 1/2                */
-// /******************************************/
+/******************************************/
+/* Unrolled Loop 2/2 - Begin              */
+/******************************************/
+s_waitcnt lgkmcnt(0)                               // 1wait for local write
+s_waitcnt 0                                        // force waitcnt0
+s_barrier                                          // 4sync for global read
 
-// /* closeLoop loopL finalLoop=0 tailLoop=0 */
-// s_sub_u32 s[sgprLoopCounterL], s[sgprLoopCounterL], 1 // dec counterL
-// s_cmp_eq_i32 s[sgprLoopCounterL], 0x1              // counterL==1
-// s_cbranch_scc1 label_LoopEndL                      // exit LoopL
+/* Begin Each Unroll: Check VGPR.checkin for INT8 LW */
 
-// /******************************************/
-// /* Unrolled Loop 2/2 - Begin              */
-// /******************************************/
-// s_waitcnt lgkmcnt(0)                               // 1wait for local write
-// s_waitcnt 0                                        // force waitcnt0
-// s_barrier                                          // 4sync for global read
+/* iter 0 */
+s_waitcnt vmcnt(0)                                 // global read wait for DirectToVgpr
+/*  grEndMfmaIndex:1, lwStartMfmaIndex:1, lwEndMfmaIndex:1  */
+/*  numMfmaForLR:0, syncPlrMfmaIndex:0  */
+/*  mfmaIndex:0  */
+ds_read_b128 v[vgprValuB_X0_I0+0:vgprValuB_X0_I0+0+3], v[vgprLocalReadAddrB] offset:0 // L -> Reg lro=0 swapByteOffset=0 ti=16 vIdx=0 eIdx=0 rIdx=0 oIdx=0 buffer=0 iui=0
+buffer_load_dwordx4 v[vgprG2LB+0:vgprG2LB+0+3], v[vgprGlobalReadOffsetB+0], s[sgprSrdB:sgprSrdB+3], 0 offen offset:0 // G -> Reg 0_0_0_0
+buffer_load_dwordx4 v[vgprG2LA+0:vgprG2LA+0+3], v[vgprGlobalReadOffsetA+0], s[sgprSrdA:sgprSrdA+3], 0 offen offset:0 // G -> Reg 0_0_0_0
 
-// /* Begin Each Unroll: Check VGPR.checkin for INT8 LW */
+/* global read inc A loopL */
+s_cmp_eq_u32 s[sgprLoopCounterL], s[sgprStaggerUIter] // Is this the wrapIter?
+s_cselect_b32 s68, s[sgprWrapUA+0], s[sgprGlobalReadIncsA+0] // incLower <- ?
+s_cselect_b32 s69, s[sgprWrapUA+1], 0              // incUpper <- ?
+s_add_u32 s[sgprSrdA+0], s[sgprSrdA+0], s68        // gra SRD += inc(lower)
+s_addc_u32 s[sgprSrdA+1], s[sgprSrdA+1], s69       // gra SRD += inc(upper)
+s_sub_u32 s[sgprShadowLimitA+0], s[sgprShadowLimitA+0], s68 // limit -= inc)
+s_subb_u32 s[sgprShadowLimitA+1], s[sgprShadowLimitA+1], s69 // limit -= inc)
+s_cmp_eq_u32 s[sgprShadowLimitA+1], 0              // are we within 2^32?
+s_cselect_b32 s[sgprSrdA+2], s[sgprShadowLimitA+0], BufferLimit // Move shadow to real if we are within 2^32
 
-// /* iter 0 */
-// s_waitcnt vmcnt(0)                                 // global read wait for DirectToVgpr
-// /*  grEndMfmaIndex:1, lwStartMfmaIndex:1, lwEndMfmaIndex:1  */
-// /*  numMfmaForLR:0, syncPlrMfmaIndex:0  */
-// /*  mfmaIndex:0  */
-// ds_read_b128 v[vgprValuB_X0_I0+0:vgprValuB_X0_I0+0+3], v[vgprLocalReadAddrB] offset:0 // L -> Reg lro=0 swapByteOffset=0 ti=16 vIdx=0 eIdx=0 rIdx=0 oIdx=0 buffer=0 iui=0
-// buffer_load_dwordx4 v[vgprG2LB+0:vgprG2LB+0+3], v[vgprGlobalReadOffsetB+0], s[sgprSrdB:sgprSrdB+3], 0 offen offset:0 // G -> Reg 0_0_0_0
-// buffer_load_dwordx4 v[vgprG2LA+0:vgprG2LA+0+3], v[vgprGlobalReadOffsetA+0], s[sgprSrdA:sgprSrdA+3], 0 offen offset:0 // G -> Reg 0_0_0_0
+/* global read inc B loopL */
+s_cmp_eq_u32 s[sgprLoopCounterL], s[sgprStaggerUIter] // Is this the wrapIter?
+s_cselect_b32 s68, s[sgprWrapUB+0], s[sgprGlobalReadIncsB+0] // incLower <- ?
+s_cselect_b32 s69, s[sgprWrapUB+1], 0              // incUpper <- ?
+s_add_u32 s[sgprSrdB+0], s[sgprSrdB+0], s68        // gra SRD += inc(lower)
+s_addc_u32 s[sgprSrdB+1], s[sgprSrdB+1], s69       // gra SRD += inc(upper)
+s_sub_u32 s[sgprShadowLimitB+0], s[sgprShadowLimitB+0], s68 // limit -= inc)
+s_subb_u32 s[sgprShadowLimitB+1], s[sgprShadowLimitB+1], s69 // limit -= inc)
+s_cmp_eq_u32 s[sgprShadowLimitB+1], 0              // are we within 2^32?
+s_waitcnt lgkmcnt(0)                               // Wait for dependent lr
+v_mfma_f32_16x16x16_f16 acc[0:3], v[vgprG2LA+4+0:vgprG2LA+4+0+1], v[vgprValuB_X0_I0+0+0+0:vgprValuB_X0_I0+0+0+0+1], acc[0:3] // left value = acc[0+0:3+0]
+/* numPrefetchIter=0 */
+/* dataAtIterA=0 numReadsIterA=1 skipReadsIterA=0 readsPerIterA=0 */
+/* dataAtIterB=0 numReadsIterB=1 skipReadsIterB=0 readsPerIterB=1 */
 
-// /* global read inc A loopL */
-// s_cmp_eq_u32 s[sgprLoopCounterL], s[sgprStaggerUIter] // Is this the wrapIter?
-// s_cselect_b32 s68, s[sgprWrapUA+0], s[sgprGlobalReadIncsA+0] // incLower <- ?
-// s_cselect_b32 s69, s[sgprWrapUA+1], 0              // incUpper <- ?
-// s_add_u32 s[sgprSrdA+0], s[sgprSrdA+0], s68        // gra SRD += inc(lower)
-// s_addc_u32 s[sgprSrdA+1], s[sgprSrdA+1], s69       // gra SRD += inc(upper)
-// s_sub_u32 s[sgprShadowLimitA+0], s[sgprShadowLimitA+0], s68 // limit -= inc)
-// s_subb_u32 s[sgprShadowLimitA+1], s[sgprShadowLimitA+1], s69 // limit -= inc)
-// s_cmp_eq_u32 s[sgprShadowLimitA+1], 0              // are we within 2^32?
-// s_cselect_b32 s[sgprSrdA+2], s[sgprShadowLimitA+0], BufferLimit // Move shadow to real if we are within 2^32
+/* iter 1 (reset local read pointers iteration)  (swap and reset local write pointers iteration)  (swap local read pointers iteration)  */
+/*  grEndMfmaIndex:1, lwStartMfmaIndex:1, lwEndMfmaIndex:1  */
+/*  numMfmaForLR:0, syncPlrMfmaIndex:0  */
+/*  mfmaIndex:1  */
+/* localReadsVacancy: latencyLeft 2 */
+s_cselect_b32 s[sgprSrdB+2], s[sgprShadowLimitB+0], BufferLimit // Move shadow to real if we are within 2^32
+/* sched write - iter 1 writesPerItem=1 */
+s_waitcnt vmcnt(1)                                 // wait for global read before writing to local
+ds_write_b128 v[vgprLocalWriteAddrB], v[vgprG2LB+0:vgprG2LB+0+3] offset:0 // lwoB_0_0_0_0 = (0*LSCB)*(MT1J+PAD) + (0*LSPB) = 0
 
-// /* global read inc B loopL */
-// s_cmp_eq_u32 s[sgprLoopCounterL], s[sgprStaggerUIter] // Is this the wrapIter?
-// s_cselect_b32 s68, s[sgprWrapUB+0], s[sgprGlobalReadIncsB+0] // incLower <- ?
-// s_cselect_b32 s69, s[sgprWrapUB+1], 0              // incUpper <- ?
-// s_add_u32 s[sgprSrdB+0], s[sgprSrdB+0], s68        // gra SRD += inc(lower)
-// s_addc_u32 s[sgprSrdB+1], s[sgprSrdB+1], s69       // gra SRD += inc(upper)
-// s_sub_u32 s[sgprShadowLimitB+0], s[sgprShadowLimitB+0], s68 // limit -= inc)
-// s_subb_u32 s[sgprShadowLimitB+1], s[sgprShadowLimitB+1], s69 // limit -= inc)
-// s_cmp_eq_u32 s[sgprShadowLimitB+1], 0              // are we within 2^32?
-// s_waitcnt lgkmcnt(0)                               // Wait for dependent lr
-// v_mfma_f32_16x16x16_f16 acc[0:3], v[vgprG2LA+4+0:vgprG2LA+4+0+1], v[vgprValuB_X0_I0+0+0+0:vgprValuB_X0_I0+0+0+0+1], acc[0:3] // left value = acc[0+0:3+0]
-// /* numPrefetchIter=0 */
-// /* dataAtIterA=0 numReadsIterA=1 skipReadsIterA=0 readsPerIterA=0 */
-// /* dataAtIterB=0 numReadsIterB=1 skipReadsIterB=0 readsPerIterB=1 */
+/* local write swap offsets a */
 
-// /* iter 1 (reset local read pointers iteration)  (swap and reset local write pointers iteration)  (swap local read pointers iteration)  */
-// /*  grEndMfmaIndex:1, lwStartMfmaIndex:1, lwEndMfmaIndex:1  */
-// /*  numMfmaForLR:0, syncPlrMfmaIndex:0  */
-// /*  mfmaIndex:1  */
-// /* localReadsVacancy: latencyLeft 2 */
-// s_cselect_b32 s[sgprSrdB+2], s[sgprShadowLimitB+0], BufferLimit // Move shadow to real if we are within 2^32
-// /* sched write - iter 1 writesPerItem=1 */
-// s_waitcnt vmcnt(1)                                 // wait for global read before writing to local
-// ds_write_b128 v[vgprLocalWriteAddrB], v[vgprG2LB+0:vgprG2LB+0+3] offset:0 // lwoB_0_0_0_0 = (0*LSCB)*(MT1J+PAD) + (0*LSPB) = 0
+/* local write swap offsets b */
+v_xor_b32 v[vgprLocalWriteAddrB], 0x1000, v[vgprLocalWriteAddrB] // swap Red Blk
 
-// /* local write swap offsets a */
+/* local read swap offsets a */
 
-// /* local write swap offsets b */
-// v_xor_b32 v[vgprLocalWriteAddrB], 0x1000, v[vgprLocalWriteAddrB] // swap Red Blk
+/* local read swap offsets b */
+v_xor_b32 v[vgprLocalReadAddrB], 0x1000, v[vgprLocalReadAddrB] // swap Red Blk
 
-// /* local read swap offsets a */
+/* local read init pointers a */
 
-// /* local read swap offsets b */
-// v_xor_b32 v[vgprLocalReadAddrB], 0x1000, v[vgprLocalReadAddrB] // swap Red Blk
+/* local read init pointers b */
 
-// /* local read init pointers a */
+/* localReadInitPointers */
+v_mfma_f32_16x16x16_f16 acc[0:3], v[vgprG2LA+4+2:vgprG2LA+4+2+1], v[vgprValuB_X0_I0+0+2+0:vgprValuB_X0_I0+0+2+0+1], acc[0:3] // left value = acc[0+0:3+0]
+/* numPrefetchIter=0 */
+/* dataAtIterA=0 numReadsIterA=1 skipReadsIterA=0 readsPerIterA=0 */
+/* dataAtIterB=0 numReadsIterB=1 skipReadsIterB=0 readsPerIterB=1 */
 
-// /* local read init pointers b */
+/******************************************/
+/* Unrolled Loop - End 2/2 (final)        */
+/******************************************/
 
-// /* localReadInitPointers */
-// v_mfma_f32_16x16x16_f16 acc[0:3], v[vgprG2LA+4+2:vgprG2LA+4+2+1], v[vgprValuB_X0_I0+0+2+0:vgprValuB_X0_I0+0+2+0+1], acc[0:3] // left value = acc[0+0:3+0]
-// /* numPrefetchIter=0 */
-// /* dataAtIterA=0 numReadsIterA=1 skipReadsIterA=0 readsPerIterA=0 */
-// /* dataAtIterB=0 numReadsIterB=1 skipReadsIterB=0 readsPerIterB=1 */
-
-// /******************************************/
-// /* Unrolled Loop - End 2/2 (final)        */
-// /******************************************/
-
-// /* closeLoop loopL finalLoop=1 tailLoop=0 */
-// s_sub_u32 s[sgprLoopCounterL], s[sgprLoopCounterL], 1 // dec counterL
-// s_cmp_eq_i32 s[sgprLoopCounterL], 0x1              // counterL==1
-// s_cbranch_scc0 label_LoopBeginL                    // restart LoopL
-
-// /* End of Ethan Test: Directly Go to NLL */
-
+/* closeLoop loopL finalLoop=1 tailLoop=0 */
+s_sub_u32 s[sgprLoopCounterL], s[sgprLoopCounterL], 1 // dec counterL
+s_cmp_eq_i32 s[sgprLoopCounterL], 0x1              // counterL==1
+s_cbranch_scc0 label_LoopBeginL                    // restart LoopL
 label_LoopEndL:
 
 /* Before NLL: Check VGPR.checkin for INT8 LW */
@@ -1829,37 +1751,32 @@ label_GSU_3:
 /******************************************/
 s_bitcmp1_b32 s[sgprOrigLoopCounter], 0            // test if OrigLoopCounter is Odd ?
 s_cbranch_scc1 label_OrdNLL_second                 // jump to second NoLoadLoop
+s_waitcnt lgkmcnt(0)                               // 4wait for local write
+s_waitcnt 0                                        // force waitcnt0
+s_barrier
 
-/* Ethan Test: Only Use second NLL */
+/* iter 0 (last unrolled loop) */
+s_waitcnt vmcnt(0)                                 // global read wait for DirectToVgpr
+/*  grEndMfmaIndex:0, lwStartMfmaIndex:0, lwEndMfmaIndex:0  */
+/*  numMfmaForLR:0, syncPlrMfmaIndex:0  */
+/*  mfmaIndex:0  */
+ds_read_b128 v[vgprValuB_X0_I0+0:vgprValuB_X0_I0+0+3], v[vgprLocalReadAddrB] offset:0 // L -> Reg lro=0 swapByteOffset=0 ti=16 vIdx=0 eIdx=0 rIdx=0 oIdx=0 buffer=0 iui=0
+s_waitcnt lgkmcnt(0)                               // Wait for dependent lr
+v_mfma_f32_16x16x16_f16 acc[0:3], v[vgprG2LA+4+0:vgprG2LA+4+0+1], v[vgprValuB_X0_I0+0+0+0:vgprValuB_X0_I0+0+0+0+1], acc[0:3] // left value = acc[0+0:3+0]
+/* numPrefetchIter=0 */
+/* dataAtIterA=0 numReadsIterA=1 skipReadsIterA=0 readsPerIterA=0 */
+/* dataAtIterB=0 numReadsIterB=1 skipReadsIterB=0 readsPerIterB=1 */
 
-// s_waitcnt lgkmcnt(0)                               // 4wait for local write
-// s_waitcnt 0                                        // force waitcnt0
-// s_barrier
-
-// /* iter 0 (last unrolled loop) */
-// s_waitcnt vmcnt(0)                                 // global read wait for DirectToVgpr
-// /*  grEndMfmaIndex:0, lwStartMfmaIndex:0, lwEndMfmaIndex:0  */
-// /*  numMfmaForLR:0, syncPlrMfmaIndex:0  */
-// /*  mfmaIndex:0  */
-// ds_read_b128 v[vgprValuB_X0_I0+0:vgprValuB_X0_I0+0+3], v[vgprLocalReadAddrB] offset:0 // L -> Reg lro=0 swapByteOffset=0 ti=16 vIdx=0 eIdx=0 rIdx=0 oIdx=0 buffer=0 iui=0
-// s_waitcnt lgkmcnt(0)                               // Wait for dependent lr
-// v_mfma_f32_16x16x16_f16 acc[0:3], v[vgprG2LA+4+0:vgprG2LA+4+0+1], v[vgprValuB_X0_I0+0+0+0:vgprValuB_X0_I0+0+0+0+1], acc[0:3] // left value = acc[0+0:3+0]
-// /* numPrefetchIter=0 */
-// /* dataAtIterA=0 numReadsIterA=1 skipReadsIterA=0 readsPerIterA=0 */
-// /* dataAtIterB=0 numReadsIterB=1 skipReadsIterB=0 readsPerIterB=1 */
-
-// /* iter 1 (last unrolled loop) */
-// /*  grEndMfmaIndex:0, lwStartMfmaIndex:0, lwEndMfmaIndex:0  */
-// /*  numMfmaForLR:0, syncPlrMfmaIndex:0  */
-// /*  mfmaIndex:1  */
-// /* localReadsVacancy: latencyLeft 2 */
-// v_mfma_f32_16x16x16_f16 acc[0:3], v[vgprG2LA+4+2:vgprG2LA+4+2+1], v[vgprValuB_X0_I0+0+2+0:vgprValuB_X0_I0+0+2+0+1], acc[0:3] // left value = acc[0+0:3+0]
-// /* numPrefetchIter=0 */
-// /* dataAtIterA=0 numReadsIterA=1 skipReadsIterA=0 readsPerIterA=0 */
-// /* dataAtIterB=0 numReadsIterB=1 skipReadsIterB=0 readsPerIterB=1 */
-// s_branch label_toPGR1end_OrdNLL                    // Branch to toPGR1end
-
-/* End of Ethan Test: Only Use second NLL */
+/* iter 1 (last unrolled loop) */
+/*  grEndMfmaIndex:0, lwStartMfmaIndex:0, lwEndMfmaIndex:0  */
+/*  numMfmaForLR:0, syncPlrMfmaIndex:0  */
+/*  mfmaIndex:1  */
+/* localReadsVacancy: latencyLeft 2 */
+v_mfma_f32_16x16x16_f16 acc[0:3], v[vgprG2LA+4+2:vgprG2LA+4+2+1], v[vgprValuB_X0_I0+0+2+0:vgprValuB_X0_I0+0+2+0+1], acc[0:3] // left value = acc[0+0:3+0]
+/* numPrefetchIter=0 */
+/* dataAtIterA=0 numReadsIterA=1 skipReadsIterA=0 readsPerIterA=0 */
+/* dataAtIterB=0 numReadsIterB=1 skipReadsIterB=0 readsPerIterB=1 */
+s_branch label_toPGR1end_OrdNLL                    // Branch to toPGR1end
 
 /******************************************/
 /* Ord. NoLoadLoop - Begin 2/2            */
@@ -1958,163 +1875,158 @@ s_cmp_eq_u32 s[sgprLoopCounterL], 0                // numIterL == 0
 s_mov_b32 s[sgprOrigLoopCounter], 0                // repurpose to count each localRead increment
 s_cbranch_scc1 label_SkipTailLoopL                 // skip to end of tail loop b/c numIter==0
 
-/* Ethan Test: Remove TailLoop */
+/* remove stagger offsets for tail loop */
+s_sub_i32 s68, 3, s[sgprStaggerUIter]
+s_cmp_ge_i32 s68, 0
+s_cbranch_scc0 label_Negative_S4FDBQ587JJL6NOU
+s_mul_hi_u32 s69, s68, s[sgprGlobalReadIncsA+0]    // start offset S in bytes
+s_mul_i32 s68, s68, s[sgprGlobalReadIncsA+0]       // start offset S in bytes
+s_branch label_MultiplyDone_L43KTIIJOOEN7J6P
+label_Negative_S4FDBQ587JJL6NOU:
+s_abs_i32 s68, s68
+s_mul_hi_u32 s69, s68, s[sgprGlobalReadIncsA+0]    // start offset S in bytes
+s_mul_i32 s68, s68, s[sgprGlobalReadIncsA+0]       // start offset S in bytes
+s_xor_b32 s68, s68, 0xffffffff
+s_xor_b32 s69, s69, 0xffffffff
+s_add_u32 s68, s68, 0x1
+s_addc_u32 s69, s69, 0
+label_MultiplyDone_L43KTIIJOOEN7J6P:
+s_sub_u32 s68, s68, s[sgprWrapUA]                  // S - WrapU
+s_subb_u32 s69, s69, s[sgprWrapUA+1]               // S - WrapU
+s_add_u32 s[sgprSrdA+0], s[sgprSrdA+0], s68        // gra SRD += inc(lower)
+s_addc_u32 s[sgprSrdA+1], s[sgprSrdA+1], s69       // gra SRD += inc(upper)
+s_sub_u32 s[sgprShadowLimitA+0], s[sgprShadowLimitA+0], s68 // limit -= inc)
+s_subb_u32 s[sgprShadowLimitA+1], s[sgprShadowLimitA+1], s69 // limit -= inc)
+s_cmp_eq_u32 s[sgprShadowLimitA+1], 0              // are we within 2^32?
+s_cselect_b32 s[sgprSrdA+2], s[sgprShadowLimitA+0], BufferLimit // Move shadow to real if we are within 2^32
+s_sub_i32 s68, 3, s[sgprStaggerUIter]
+s_cmp_ge_i32 s68, 0
+s_cbranch_scc0 label_Negative_UR8VN3A1SJCPC6PO
+s_mul_hi_u32 s69, s68, s[sgprGlobalReadIncsB+0]    // start offset S in bytes
+s_mul_i32 s68, s68, s[sgprGlobalReadIncsB+0]       // start offset S in bytes
+s_branch label_MultiplyDone_HYY06MPL0TYYIAT2
+label_Negative_UR8VN3A1SJCPC6PO:
+s_abs_i32 s68, s68
+s_mul_hi_u32 s69, s68, s[sgprGlobalReadIncsB+0]    // start offset S in bytes
+s_mul_i32 s68, s68, s[sgprGlobalReadIncsB+0]       // start offset S in bytes
+s_xor_b32 s68, s68, 0xffffffff
+s_xor_b32 s69, s69, 0xffffffff
+s_add_u32 s68, s68, 0x1
+s_addc_u32 s69, s69, 0
+label_MultiplyDone_HYY06MPL0TYYIAT2:
+s_sub_u32 s68, s68, s[sgprWrapUB]                  // S - WrapU
+s_subb_u32 s69, s69, s[sgprWrapUB+1]               // S - WrapU
+s_add_u32 s[sgprSrdB+0], s[sgprSrdB+0], s68        // gra SRD += inc(lower)
+s_addc_u32 s[sgprSrdB+1], s[sgprSrdB+1], s69       // gra SRD += inc(upper)
+s_sub_u32 s[sgprShadowLimitB+0], s[sgprShadowLimitB+0], s68 // limit -= inc)
+s_subb_u32 s[sgprShadowLimitB+1], s[sgprShadowLimitB+1], s69 // limit -= inc)
+s_cmp_eq_u32 s[sgprShadowLimitB+1], 0              // are we within 2^32?
+s_cselect_b32 s[sgprSrdB+2], s[sgprShadowLimitB+0], BufferLimit // Move shadow to real if we are within 2^32
 
-// /* remove stagger offsets for tail loop */
-// s_sub_i32 s68, 3, s[sgprStaggerUIter]
-// s_cmp_ge_i32 s68, 0
-// s_cbranch_scc0 label_Negative_S4FDBQ587JJL6NOU
-// s_mul_hi_u32 s69, s68, s[sgprGlobalReadIncsA+0]    // start offset S in bytes
-// s_mul_i32 s68, s68, s[sgprGlobalReadIncsA+0]       // start offset S in bytes
-// s_branch label_MultiplyDone_L43KTIIJOOEN7J6P
-// label_Negative_S4FDBQ587JJL6NOU:
-// s_abs_i32 s68, s68
-// s_mul_hi_u32 s69, s68, s[sgprGlobalReadIncsA+0]    // start offset S in bytes
-// s_mul_i32 s68, s68, s[sgprGlobalReadIncsA+0]       // start offset S in bytes
-// s_xor_b32 s68, s68, 0xffffffff
-// s_xor_b32 s69, s69, 0xffffffff
-// s_add_u32 s68, s68, 0x1
-// s_addc_u32 s69, s69, 0
-// label_MultiplyDone_L43KTIIJOOEN7J6P:
-// s_sub_u32 s68, s68, s[sgprWrapUA]                  // S - WrapU
-// s_subb_u32 s69, s69, s[sgprWrapUA+1]               // S - WrapU
-// s_add_u32 s[sgprSrdA+0], s[sgprSrdA+0], s68        // gra SRD += inc(lower)
-// s_addc_u32 s[sgprSrdA+1], s[sgprSrdA+1], s69       // gra SRD += inc(upper)
-// s_sub_u32 s[sgprShadowLimitA+0], s[sgprShadowLimitA+0], s68 // limit -= inc)
-// s_subb_u32 s[sgprShadowLimitA+1], s[sgprShadowLimitA+1], s69 // limit -= inc)
-// s_cmp_eq_u32 s[sgprShadowLimitA+1], 0              // are we within 2^32?
-// s_cselect_b32 s[sgprSrdA+2], s[sgprShadowLimitA+0], BufferLimit // Move shadow to real if we are within 2^32
-// s_sub_i32 s68, 3, s[sgprStaggerUIter]
-// s_cmp_ge_i32 s68, 0
-// s_cbranch_scc0 label_Negative_UR8VN3A1SJCPC6PO
-// s_mul_hi_u32 s69, s68, s[sgprGlobalReadIncsB+0]    // start offset S in bytes
-// s_mul_i32 s68, s68, s[sgprGlobalReadIncsB+0]       // start offset S in bytes
-// s_branch label_MultiplyDone_HYY06MPL0TYYIAT2
-// label_Negative_UR8VN3A1SJCPC6PO:
-// s_abs_i32 s68, s68
-// s_mul_hi_u32 s69, s68, s[sgprGlobalReadIncsB+0]    // start offset S in bytes
-// s_mul_i32 s68, s68, s[sgprGlobalReadIncsB+0]       // start offset S in bytes
-// s_xor_b32 s68, s68, 0xffffffff
-// s_xor_b32 s69, s69, 0xffffffff
-// s_add_u32 s68, s68, 0x1
-// s_addc_u32 s69, s69, 0
-// label_MultiplyDone_HYY06MPL0TYYIAT2:
-// s_sub_u32 s68, s68, s[sgprWrapUB]                  // S - WrapU
-// s_subb_u32 s69, s69, s[sgprWrapUB+1]               // S - WrapU
-// s_add_u32 s[sgprSrdB+0], s[sgprSrdB+0], s68        // gra SRD += inc(lower)
-// s_addc_u32 s[sgprSrdB+1], s[sgprSrdB+1], s69       // gra SRD += inc(upper)
-// s_sub_u32 s[sgprShadowLimitB+0], s[sgprShadowLimitB+0], s68 // limit -= inc)
-// s_subb_u32 s[sgprShadowLimitB+1], s[sgprShadowLimitB+1], s69 // limit -= inc)
-// s_cmp_eq_u32 s[sgprShadowLimitB+1], 0              // are we within 2^32?
-// s_cselect_b32 s[sgprSrdB+2], s[sgprShadowLimitB+0], BufferLimit // Move shadow to real if we are within 2^32
+/* Update M0 for DTLDS */
 
-// /* Update M0 for DTLDS */
+/* Tail global read B */
+buffer_load_dwordx4 v[vgprG2LB+0:vgprG2LB+0+3], v[vgprGlobalReadOffsetB+0], s[sgprSrdB:sgprSrdB+3], 0 offen offset:0 // G -> Reg 0_0_0_0
 
-// /* Tail global read B */
-// buffer_load_dwordx4 v[vgprG2LB+0:vgprG2LB+0+3], v[vgprGlobalReadOffsetB+0], s[sgprSrdB:sgprSrdB+3], 0 offen offset:0 // G -> Reg 0_0_0_0
+/* Update M0 for DTLDS */
 
-// /* Update M0 for DTLDS */
+/* Tail global read A */
+buffer_load_dwordx4 v[vgprG2LA+0:vgprG2LA+0+3], v[vgprGlobalReadOffsetA+0], s[sgprSrdA:sgprSrdA+3], 0 offen offset:0 // G -> Reg 0_0_0_0
+.set sgprWGM, UNDEF
+.set sgprStaggerUIter, UNDEF
+.set sgprAddressA, UNDEF
+.set sgprAddressB, UNDEF
+.set sgprGlobalReadIncsA, UNDEF
+.set sgprWrapUA, UNDEF
+.set sgprWrapUB, UNDEF
+.set sgprGlobalReadIncsB, UNDEF
+label_TailGlobalLoadEnd:
+s_waitcnt vmcnt(0)                                 // 2wait for global read
+s_waitcnt 0                                        // force waitcnt0
+s_barrier
 
-// /* Tail global read A */
-// buffer_load_dwordx4 v[vgprG2LA+0:vgprG2LA+0+3], v[vgprGlobalReadOffsetA+0], s[sgprSrdA:sgprSrdA+3], 0 offen offset:0 // G -> Reg 0_0_0_0
-// .set sgprWGM, UNDEF
-// .set sgprStaggerUIter, UNDEF
-// .set sgprAddressA, UNDEF
-// .set sgprAddressB, UNDEF
-// .set sgprGlobalReadIncsA, UNDEF
-// .set sgprWrapUA, UNDEF
-// .set sgprWrapUB, UNDEF
-// .set sgprGlobalReadIncsB, UNDEF
-// label_TailGlobalLoadEnd:
-// s_waitcnt vmcnt(0)                                 // 2wait for global read
-// s_waitcnt 0                                        // force waitcnt0
-// s_barrier
+/* local write a */
 
-// /* local write a */
+/* local write b */
+ds_write_b128 v[vgprLocalWriteAddrB], v[vgprG2LB+0:vgprG2LB+0+3] offset:0 // lwoB_0_0_0_0 = (0*LSCB)*(MT1J+PAD) + (0*LSPB) = 0
+s_waitcnt lgkmcnt(0)                               // 5wait for local write
+s_waitcnt 0                                        // force waitcnt0
+s_barrier
+.set vgprG2LB_BASE, UNDEF
+.set vgprG2LB, UNDEF
+.set vgprValuB_X0_I0_BASE, 12
+.set vgprValuB_X0_I0, vgprValuB_X0_I0_BASE+0
+.set vgprValuB_X1_I0, vgprValuB_X0_I0_BASE+2
 
-// /* local write b */
-// ds_write_b128 v[vgprLocalWriteAddrB], v[vgprG2LB+0:vgprG2LB+0+3] offset:0 // lwoB_0_0_0_0 = (0*LSCB)*(MT1J+PAD) + (0*LSPB) = 0
-// s_waitcnt lgkmcnt(0)                               // 5wait for local write
-// s_waitcnt 0                                        // force waitcnt0
-// s_barrier
-// .set vgprG2LB_BASE, UNDEF
-// .set vgprG2LB, UNDEF
-// .set vgprValuB_X0_I0_BASE, 12
-// .set vgprValuB_X0_I0, vgprValuB_X0_I0_BASE+0
-// .set vgprValuB_X1_I0, vgprValuB_X0_I0_BASE+2
+/* Tail: local read reset offsets a */
 
-// /* Tail: local read reset offsets a */
+/* Tail: local read reset offsets b */
 
-// /* Tail: local read reset offsets b */
+/* localReadResetOffsets */
+/* handled internally */
+v_and_b32 v[vgprLocalReadAddrB+0], 0xfff, v[vgprLocalReadAddrB+0] // reset Red,Blk -> Red
 
-// /* localReadResetOffsets */
-// /* handled internally */
-// v_and_b32 v[vgprLocalReadAddrB+0], 0xfff, v[vgprLocalReadAddrB+0] // reset Red,Blk -> Red
+/* Tail: local read init pointers a */
 
-// /* Tail: local read init pointers a */
+/* Tail: local read init pointers b */
 
-// /* Tail: local read init pointers b */
+/* localReadInitPointers */
 
-// /* localReadInitPointers */
+/* tail loop: macs */
+label_TailLoopBeginL:
 
-// /* tail loop: macs */
-// label_TailLoopBeginL:
+/* tail loop unroll iter 0 */
 
-// /* tail loop unroll iter 0 */
+/* local read a */
 
-// /* local read a */
+/* local read b */
+ds_read_b128 v[vgprValuB_X0_I0+0:vgprValuB_X0_I0+0+3], v[vgprLocalReadAddrB] offset:0 // L -> Reg lro=0 swapByteOffset=0 ti=16 vIdx=0 eIdx=0 rIdx=0 oIdx=0 buffer=0 iui=0
 
-// /* local read b */
-// ds_read_b128 v[vgprValuB_X0_I0+0:vgprValuB_X0_I0+0+3], v[vgprLocalReadAddrB] offset:0 // L -> Reg lro=0 swapByteOffset=0 ti=16 vIdx=0 eIdx=0 rIdx=0 oIdx=0 buffer=0 iui=0
+/* local read inc a */
 
-// /* local read inc a */
+/* local read inc b */
+s_mov_b32 s8, 0x40                                 // inc
+v_add_co_u32 v[vgprLocalReadAddrB+0], vcc, s8, v[vgprLocalReadAddrB+0] // lrB += 64 (bpeDS)
+s_waitcnt lgkmcnt(0)                               // 4wait for local read
+v_and_b32 v16, 63, v[vgprSerial]                   // v16 = v[vgprSerial] % 64
+v_lshrrev_b32 v16, 4, v16                          // 16 = 16 / 16
+v_lshlrev_b32 v16, 3, v16                          // v16 = v16 * 8
+s_min_i32 s8, s[sgprLoopCounterL], s[sgprLSUTailLoopOffset] // check lsu bound
+v_cmp_ge_i32 s[34:35], v16, s8                     // check K index >= Size L
+v_cndmask_b32 v[vgprValuB_X0_I0+0+0+0+0], v[vgprValuB_X0_I0+0+0+0+0], 0, s[34:35] // set 0 if K_idx >= sizeL
+v_cndmask_b32 v[vgprValuB_X0_I0+0+0+0+1], v[vgprValuB_X0_I0+0+0+0+1], 0, s[34:35] // set 0 if K_idx >= sizeL
+s_nop 1
+v_mfma_f32_16x16x16_f16 acc[0:3], v[vgprG2LA+0+0:vgprG2LA+0+0+1], v[vgprValuB_X0_I0+0+0+0:vgprValuB_X0_I0+0+0+0+1], acc[0:3] // left value = acc[0+0:3+0]
 
-// /* local read inc b */
-// s_mov_b32 s8, 0x40                                 // inc
-// v_add_co_u32 v[vgprLocalReadAddrB+0], vcc, s8, v[vgprLocalReadAddrB+0] // lrB += 64 (bpeDS)
-// s_waitcnt lgkmcnt(0)                               // 4wait for local read
-// v_and_b32 v16, 63, v[vgprSerial]                   // v16 = v[vgprSerial] % 64
-// v_lshrrev_b32 v16, 4, v16                          // 16 = 16 / 16
-// v_lshlrev_b32 v16, 3, v16                          // v16 = v16 * 8
-// s_min_i32 s8, s[sgprLoopCounterL], s[sgprLSUTailLoopOffset] // check lsu bound
-// v_cmp_ge_i32 s[34:35], v16, s8                     // check K index >= Size L
-// v_cndmask_b32 v[vgprValuB_X0_I0+0+0+0+0], v[vgprValuB_X0_I0+0+0+0+0], 0, s[34:35] // set 0 if K_idx >= sizeL
-// v_cndmask_b32 v[vgprValuB_X0_I0+0+0+0+1], v[vgprValuB_X0_I0+0+0+0+1], 0, s[34:35] // set 0 if K_idx >= sizeL
-// s_nop 1
-// v_mfma_f32_16x16x16_f16 acc[0:3], v[vgprG2LA+0+0:vgprG2LA+0+0+1], v[vgprValuB_X0_I0+0+0+0:vgprValuB_X0_I0+0+0+0+1], acc[0:3] // left value = acc[0+0:3+0]
+/* restore full exec mask */
+s_mov_b64 s[34:35], 0xFFFFFFFFFFFFFFFF             // restore all threads active
+s_or_saveexec_b64 s[34:35], s[34:35]               // full mask -> exec
 
-// /* restore full exec mask */
-// s_mov_b64 s[34:35], 0xFFFFFFFFFFFFFFFF             // restore all threads active
-// s_or_saveexec_b64 s[34:35], s[34:35]               // full mask -> exec
+/* tail loop unroll iter 1 */
+s_waitcnt lgkmcnt(0)                               // 4wait for local read
+v_and_b32 v16, 63, v[vgprSerial]                   // v16 = v[vgprSerial] % 64
+v_lshrrev_b32 v16, 4, v16                          // 16 = 16 / 16
+v_lshlrev_b32 v16, 3, v16                          // v16 = v16 * 8
+v_add_u32 v16, 0x4, v16                            // k += (u%%numReadsIterCoalesced) * numMIInput
+s_min_i32 s8, s[sgprLoopCounterL], s[sgprLSUTailLoopOffset] // check lsu bound
+v_cmp_ge_i32 s[34:35], v16, s8                     // check K index >= Size L
+v_cndmask_b32 v[vgprValuB_X0_I0+0+2+0+0], v[vgprValuB_X0_I0+0+2+0+0], 0, s[34:35] // set 0 if K_idx >= sizeL
+v_cndmask_b32 v[vgprValuB_X0_I0+0+2+0+1], v[vgprValuB_X0_I0+0+2+0+1], 0, s[34:35] // set 0 if K_idx >= sizeL
+s_nop 1
+v_mfma_f32_16x16x16_f16 acc[0:3], v[vgprG2LA+0+2:vgprG2LA+0+2+1], v[vgprValuB_X0_I0+0+2+0:vgprValuB_X0_I0+0+2+0+1], acc[0:3] // left value = acc[0+0:3+0]
 
-// /* tail loop unroll iter 1 */
-// s_waitcnt lgkmcnt(0)                               // 4wait for local read
-// v_and_b32 v16, 63, v[vgprSerial]                   // v16 = v[vgprSerial] % 64
-// v_lshrrev_b32 v16, 4, v16                          // 16 = 16 / 16
-// v_lshlrev_b32 v16, 3, v16                          // v16 = v16 * 8
-// v_add_u32 v16, 0x4, v16                            // k += (u%%numReadsIterCoalesced) * numMIInput
-// s_min_i32 s8, s[sgprLoopCounterL], s[sgprLSUTailLoopOffset] // check lsu bound
-// v_cmp_ge_i32 s[34:35], v16, s8                     // check K index >= Size L
-// v_cndmask_b32 v[vgprValuB_X0_I0+0+2+0+0], v[vgprValuB_X0_I0+0+2+0+0], 0, s[34:35] // set 0 if K_idx >= sizeL
-// v_cndmask_b32 v[vgprValuB_X0_I0+0+2+0+1], v[vgprValuB_X0_I0+0+2+0+1], 0, s[34:35] // set 0 if K_idx >= sizeL
-// s_nop 1
-// v_mfma_f32_16x16x16_f16 acc[0:3], v[vgprG2LA+0+2:vgprG2LA+0+2+1], v[vgprValuB_X0_I0+0+2+0:vgprValuB_X0_I0+0+2+0+1], acc[0:3] // left value = acc[0+0:3+0]
+/* closeLoop loopL finalLoop=1 tailLoop=1 */
+s_sub_i32 s[sgprLoopCounterL], s[sgprLoopCounterL], 0x20 // dec counterL (tailLoop)
+s_add_u32 s[sgprOrigLoopCounter], s[sgprOrigLoopCounter], 0x20 // inc counterL
+s_sub_i32 s[sgprLSUTailLoopOffset], s[sgprLSUTailLoopOffset], 0x20 // LSU offset dec counterL (tailLoop)
+s_min_i32 s8, s[sgprLoopCounterL], s[sgprLSUTailLoopOffset] // check lsu offset too
+s_cmp_le_i32 s8, 0x0                               // counterL<=0
+s_cbranch_scc0 label_TailLoopBeginL                // restart LoopL
+label_TailLoopEndL:
 
-// /* closeLoop loopL finalLoop=1 tailLoop=1 */
-// s_sub_i32 s[sgprLoopCounterL], s[sgprLoopCounterL], 0x20 // dec counterL (tailLoop)
-// s_add_u32 s[sgprOrigLoopCounter], s[sgprOrigLoopCounter], 0x20 // inc counterL
-// s_sub_i32 s[sgprLSUTailLoopOffset], s[sgprLSUTailLoopOffset], 0x20 // LSU offset dec counterL (tailLoop)
-// s_min_i32 s8, s[sgprLoopCounterL], s[sgprLSUTailLoopOffset] // check lsu offset too
-// s_cmp_le_i32 s8, 0x0                               // counterL<=0
-// s_cbranch_scc0 label_TailLoopBeginL                // restart LoopL
-// label_TailLoopEndL:
-
-// /* restore full exec mask */
-// s_mov_b64 s[34:35], 0xFFFFFFFFFFFFFFFF             // restore all threads active
-// s_or_saveexec_b64 s[34:35], s[34:35]               // full mask -> exec
-
-// /* End of Ethan Test: Remove TailLoop */
-
+/* restore full exec mask */
+s_mov_b64 s[34:35], 0xFFFFFFFFFFFFFFFF             // restore all threads active
+s_or_saveexec_b64 s[34:35], s[34:35]               // full mask -> exec
 label_SkipTailLoopL:
 .set vgprValuB_X0_I0_BASE, UNDEF
 .set vgprValuB_X0_I0, UNDEF
